@@ -72,11 +72,14 @@ for (var i = 0; i < materials.length; i++){
 
 // ----------------------------------------------------------
 
-headings = ["Room Name", "Attendance Relative Humidity (%)", "Attendance Temperature", "Attendance Dew Point", "Attendance GPK"]
+affected_area_psychometrics_headings = ["Room Name", "Attendance Relative Humidity (%)", "Attendance Temperature", "Attendance Dew Point", "Attendance GPK"]
 data = [["Bedroom 1", "52.5%", "23.8°C", "12.3°C", "8.89°C"], ["Bathroom", "23.6°C", "52.1%", "11.9°C",	"8.56°C"]]
 
-
-
+affected_area_findings_headings = ["Room Name", "Width Length", "Height", "Room Damage (%)"]
+affected_area_findings_floor_headings = ["Flooring Type", "Carpet Type", "Colour of Underlay (Carpeted)", "Is Flooring Restorable?", "Quantity of Flooring Removed"]
+findings_headings = ["Findings", "Findings - Supporting Information"]
+actions_headings = ["Actions", "Actions - Supporting Information"]
+equipment_register_table_headings = ["Room Name","Air Movers", "Dehumidifier", "Air Filtration Device (AFD)"]
 
 // -----------------------------------------------------------
 
@@ -381,22 +384,227 @@ app.get('/quote', async (req, res) => {
 app.get('/report', async (req, res) => {
     const doc = await docx.patchDocument(fs.readFileSync("templates/report.docx"), {
         patches: {
-            client: {
+            account: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("Aji Nav")]
+                children: [new TextRun("Aji Nav")],
+                size: `${9}pt`
+            },
+            work_order_number: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            client_work_order_number: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            job_category: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            affected_site_address: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            name: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            email: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            phone_number: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
             },
             address: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")]
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
             },
-            table: {
+            appointment_number: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            business_hours_worked: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            attendance_date: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            after_hours_worked: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            number_resources_attending: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            client_discussion: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            date_damage_occurred: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            cause_of_damage: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            water_damage_class: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            water_damage_category: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            outdoor_relative_humidity: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            outdoor_temperature: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            outdoor_dew_humidity: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            outdoor_gpk: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            affected_area_psychometrics: {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(headings, data)
+                        rows: create_table(affected_area_psychometrics_headings, data)
                     })
                 ],
-            }
+            },
+            affected_area_findings: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_table(affected_area_findings_headings, data)
+                    })
+                ],
+            },
+            affected_area_findings_floor: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_table(affected_area_findings_floor_headings, data)
+                    })
+                ],
+            },
+            findings: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_table(findings_headings, data)
+                    })
+                ],
+            },
+            actions: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_table(actions_headings, data)
+                    })
+                ],
+            },
+            equipment_register: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            equipment_register_table: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_table(actions_headings, data)
+                    })
+                ],
+            },
+            equipment_left_on_site: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            yes_no_further_work: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            steps: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            yes_no_other_trades: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            what_trades_why_trades: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            matters_for_consideration: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            yes_no_temporary_accommodation: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            days_of_accommodation: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            insurance_excess_collected: {
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("27 Kingfisher Gardens")],
+                size: `${9}pt`
+            },
+            photographic_evidence: {
+                type: docx.PatchType.DOCUMENT,
+                children: [
+                    new Table({
+                        rows: create_photo_display()
+                    })
+                ],
+            },
         }
     })
 
@@ -450,4 +658,8 @@ function create_table(headings, data){
     }
 
     return rows
+}
+
+function create_photo_display(){
+    
 }
