@@ -6,7 +6,7 @@ const fs = require('fs-extra');
 
 const app = express();
 const port = 3000;
-const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, VerticalAlign } = docx;
+const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, VerticalAlign, WidthType, BorderStyle } = docx;
 
 app.use(cors());
 
@@ -74,6 +74,8 @@ for (var i = 0; i < materials.length; i++){
 
 affected_area_psychometrics_headings = ["Room Name", "Attendance Relative Humidity (%)", "Attendance Temperature", "Attendance Dew Point", "Attendance GPK"]
 data = [["Bedroom 1", "52.5%", "23.8°C", "12.3°C", "8.89°C"], ["Bathroom", "23.6°C", "52.1%", "11.9°C",	"8.56°C"]]
+findings_data = [["Aji", "Nav"]]
+images = [["Outdoor", "Bedroom 1", "Bathroom"], ["sample_image.jpg", "sample_image.jpg",], ["sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg"], ["sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg","sample_image.jpg"]]
 
 affected_area_findings_headings = ["Room Name", "Width Length", "Height", "Room Damage (%)"]
 affected_area_findings_floor_headings = ["Flooring Type", "Carpet Type", "Colour of Underlay (Carpeted)", "Is Flooring Restorable?", "Quantity of Flooring Removed"]
@@ -382,128 +384,175 @@ app.get('/quote', async (req, res) => {
 });
 
 app.get('/report', async (req, res) => {
-    const doc = await docx.patchDocument(fs.readFileSync("templates/report.docx"), {
+    let doc = await docx.patchDocument(fs.readFileSync("templates/report.docx"), {
         patches: {
             account: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("Aji Nav")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             work_order_number: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             client_work_order_number: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             job_category: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             affected_site_address: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             name: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             email: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             phone_number: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             address: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             appointment_number: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             business_hours_worked: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             attendance_date: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             after_hours_worked: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             number_resources_attending: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             client_discussion: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             date_damage_occurred: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             cause_of_damage: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             water_damage_class: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             water_damage_category: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             outdoor_relative_humidity: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             outdoor_temperature: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             outdoor_dew_humidity: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             outdoor_gpk: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             affected_area_psychometrics: {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(affected_area_psychometrics_headings, data)
+                        rows: create_table(affected_area_psychometrics_headings, data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
@@ -511,7 +560,8 @@ app.get('/report', async (req, res) => {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(affected_area_findings_headings, data)
+                        rows: create_table(affected_area_findings_headings, data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
@@ -519,7 +569,8 @@ app.get('/report', async (req, res) => {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(affected_area_findings_floor_headings, data)
+                        rows: create_table(affected_area_findings_floor_headings, data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
@@ -527,7 +578,8 @@ app.get('/report', async (req, res) => {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(findings_headings, data)
+                        rows: create_table(findings_headings, findings_data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
@@ -535,76 +587,126 @@ app.get('/report', async (req, res) => {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(actions_headings, data)
+                        rows: create_table(actions_headings, data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
             equipment_register: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${9}pt`
+                })],
             },
             equipment_register_table: {
                 type: docx.PatchType.DOCUMENT,
                 children: [
                     new Table({
-                        rows: create_table(actions_headings, data)
+                        rows: create_table(actions_headings, data),
+                        width: { size: 100, type: WidthType.PERCENTAGE }
                     })
                 ],
             },
             equipment_left_on_site: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             yes_no_further_work: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             steps: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             yes_no_other_trades: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             what_trades_why_trades: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             matters_for_consideration: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             yes_no_temporary_accommodation: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             days_of_accommodation: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
             insurance_excess_collected: {
                 type: docx.PatchType.PARAGRAPH,
-                children: [new TextRun("27 Kingfisher Gardens")],
-                size: `${9}pt`
+                children: [new TextRun({
+                    text: "Aji Nav",
+                    size: `${8}pt`
+                })],
             },
+        }
+    })
+
+    for(let i = 0; i < images[0].length; i++){
+        doc = await docx.patchDocument(doc, {
+            patches: {
+                photographic_evidence: {
+                    type: docx.PatchType.PARAGRAPH,
+                    children: [
+                        new TextRun({
+                            text: `${images[0][i]}`,
+                            bold: true,
+                            allCaps: true,
+                            size: `${8}pt`,
+                            break: 1,
+                        }),
+                        /*new Table({
+                            rows: create_photo_display(),
+                            width: { size: 100, type: WidthType.PERCENTAGE },
+                            break: 1
+                        }),*/
+                        new TextRun({
+                            text: "{{photographic_evidence}}",
+                            size: `${9}pt`
+                        })
+                    ]
+                }
+            }
+        })
+    }
+    doc = await docx.patchDocument(doc, {
+        patches: {
             photographic_evidence: {
-                type: docx.PatchType.DOCUMENT,
-                children: [
-                    new Table({
-                        rows: create_photo_display()
-                    })
-                ],
-            },
+                type: docx.PatchType.PARAGRAPH,
+                children: [new TextRun("")]
+            }
         }
     })
 
@@ -637,6 +739,7 @@ function create_table(headings, data){
     for(let i = 0; i < headings.length; i++){
         heading_row_cells.push(
             new TableCell({
+                width: { size: 100 / headings.length, type: WidthType.PERCENTAGE },
                 children: [new Paragraph({children: [new TextRun({text: ` ${headings[i]} `, size: `${8}pt`, bold: true})]})],
                 shading: { fill:  "B2BBCB" }
             })
