@@ -8,65 +8,63 @@ function generate(){
 }
 
 function getData(){
-    console.log("testing")
-    console.log(document.getElementById('job_address').value)
-    console.log(getCheckboxes('job_category'))
     let data = {
         "job_address": document.getElementById('job_address').value,
         "account": document.getElementById('account').value,
-        "job_category": getCheckboxes('job_category'),
-        attendence_num_date
-        hrs_worked_bus_or_after
-        client_discussion
-        date_dmg_occurred
-        cause_dmg
-        water_damage_class
-        water_damage_category
-        temperature
-        dew_point
-        relative_humidity
-        outdoor_gpk
-        "rooms": getDataRooms()
-        next_steps
-        other_trades
-        matters_for_consideration
-        accomodation
-        insurance_excess
-        insurance_excess_amount
-        estimated_equipment_pickup
-
+        "job_category": getCheckboxes('job_category', document),
+        "attendence_num_date": document.getElementById('attendence_num_date').value,
+        "hrs_worked_bus_or_after": document.getElementById('hrs_worked_bus_or_after').value,
+        "client_discussion": document.getElementById('client_discussion').value,
+        "date_dmg_occurred": document.getElementById('date_dmg_occurred').value,
+        "cause_dmg": document.getElementById('cause_dmg').value,
+        "water_damage_class": document.getElementById('water_damage_class').value,
+        "water_damage_category": document.getElementById('water_damage_category').value,
+        "temperature": document.getElementById('temperature').value,
+        "dew_point": document.getElementById('dew_point').value,
+        "relative_humidity": document.getElementById('relative_humidity').value,
+        "outdoor_gpk": document.getElementById('outdoor_gpk').value,
+        "rooms": getDataRooms(),
+        "next_steps": document.getElementById('next_steps').value,
+        "other_trades": document.getElementById('other_trades').value,
+        "matters_for_consideration": document.getElementById('matters_for_consideration').value,
+        "accomodation": document.getElementById('accomodation').value,
+        "insurance_excess": document.getElementById('insurance_excess').value,
+        "insurance_excess_amount": document.getElementById('insurance_excess_amount').value,
+        "estimated_equipment_pickup": document.getElementById('estimated_equipment_pickup').value,
     }
     console.log(data)
 }
 
 function getDataRooms(){
     let data = []
-    let children = document.getElementById("rooms").children
-    for(let i = 0; i < children.length; i++){
+    let roomElements = document.getElementById("rooms").children
+    for(let i = 0; i < roomElements.length; i++){
         let room = {
-            room_name
-            temperature
-            dew_point
-            relative_humidity
-            gpk
-            width
-            length
-            height
-            room_dmg_percent
-            flooring_type
-            carpet_type
-            underlay_colour
-            is_floor_restorable
-            quality_removed_floor
-            findings
-            supporting_findings
-            actions
-            supporting_actions
-            equipment
-            equipment_quantity
-            photos
+            "room_name": roomElements[i].querySelector('.room_name').value,
+            "temperature": roomElements[i].querySelector('.temperature').value,
+            "dew_point": roomElements[i].querySelector('.dew_point').value,
+            "relative_humidity": roomElements[i].querySelector('.relative_humidity').value,
+            "gpk": roomElements[i].querySelector('.gpk').value,
+            "width": roomElements[i].querySelector('.width').value,
+            "length": roomElements[i].querySelector('.length').value,
+            "height": roomElements[i].querySelector('.height').value,
+            "room_dmg_percent": roomElements[i].querySelector('.room_dmg_percent').value,
+            "flooring_type": getCheckboxes('flooring_type', roomElements[i]),
+            "carpet_type": getCheckboxes('carpet_type', roomElements[i]),
+            "underlay_colour": getCheckboxes('underlay_colour', roomElements[i]),
+            "is_floor_restorable": roomElements[i].querySelector('.is_floor_restorable').value,
+            "quality_removed_floor": roomElements[i].querySelector('.quality_removed_floor').value,
+            "findings": getCheckboxes('findings', roomElements[i]),
+            "supporting_findings": roomElements[i].querySelector('.supporting_findings').value,
+            "actions": getCheckboxes('actions', roomElements[i]),
+            "supporting_actions": roomElements[i].querySelector('.supporting_actions').value,
+            "equipment": getCheckboxes('equipment', roomElements[i]),
+            "equipment_quantity": roomElements[i].querySelector('.equipment_quantity').value,
+            "photos": roomElements[i].querySelector('.photos').value,
         }
+        data.push(room)
     }
+    return data
 }
 
 function generateRoom(){
@@ -76,47 +74,47 @@ function generateRoom(){
 
     <div>
         <label for="room_name">Room Name</label>
-        <input type="text" id="room_name">
+        <input type="text" class="room_name">
     </div>
 
     <div>
         <label for="temperature">Temperature</label>
-        <input type="text" id="temperature">
+        <input type="text" class="temperature">
     </div>
 
     <div>
         <label for="dew_point">Dew Point</label>
-        <input type="text" id="dew_point">
+        <input type="text" class="dew_point">
     </div>
 
     <div>
         <label for="relative_humidity">Relative Humidity</label>
-        <input type="text" id="relative_humidity">
+        <input type="text" class="relative_humidity">
     </div>
 
     <div>
         <label for="gpk">GPK</label>
-        <input type="text" id="gpk">
+        <input type="text" class="gpk">
     </div>
 
     <div>
         <label for="width">Width</label>
-        <input type="text" id="width">
+        <input type="text" class="width">
     </div>
 
     <div>
         <label for="length">Length</label>
-        <input type="text" id="length">
+        <input type="text" class="length">
     </div>
 
     <div>
         <label for="height">Height</label>
-        <input type="text" id="height">
+        <input type="text" class="height">
     </div>
 
     <div>
         <label for="room_dmg_percent">Room Damage %</label>
-        <input type="text" id="room_dmg_percent">
+        <input type="text" class="room_dmg_percent">
     </div>
 
     <div>
@@ -223,12 +221,12 @@ function generateRoom(){
     
     <div>
         <label for="is_floor_restorable">Is Flooring Restorable</label>
-        <input type="text" id="is_floor_restorable">
+        <input type="text" class="is_floor_restorable">
     </div>
 
     <div>
         <label for="quality_removed_floor">Quality of Flooring Removed</label>
-        <input type="text" id="quality_removed_floor">
+        <input type="text" class="quality_removed_floor">
     </div>
 
     <div>
@@ -318,7 +316,7 @@ function generateRoom(){
 
     <div>
         <label for="supporting_findings">Supporting Findings</label>
-        <input type="text" id="supporting_findings">
+        <input type="text" class="supporting_findings">
     </div>
 
     <div>
@@ -393,7 +391,7 @@ function generateRoom(){
     
     <div>
         <label for="supporting_actions">Supporting Actions</label>
-        <input type="text" id="supporting_actions">
+        <input type="text" class="supporting_actions">
     </div>
 
     <div>
@@ -417,20 +415,20 @@ function generateRoom(){
 
     <div>
         <label for="equipment_quantity">Equipment Quantity</label>
-        <input type="text" id="equipment_quantity">
+        <input type="text" class="equipment_quantity">
     </div>
 
     <div>
         <label for="photos">Photos</label>
-        <input type="file" accept="image/jpeg, image/jpg" id="photos" multiple>
+        <input type="file" accept="image/jpeg, image/jpg" class="photos" multiple>
     </div>
     `
     document.getElementById('rooms').appendChild(div)
 }
 
-function getCheckboxes(checkbox_parent){
+function getCheckboxes(checkbox_parent, doc){
     let checkedVals = []
-    let inputElements = document.getElementsByClassName(checkbox_parent)
+    let inputElements = doc.getElementsByClassName(checkbox_parent)
     for(let i=0; i < inputElements.length; i++){
         if(inputElements[i].checked){
             checkedVals.push(inputElements[i].value)
