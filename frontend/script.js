@@ -35,10 +35,11 @@ function getData(){
     console.log(data)
 }
 
-function getDataRooms(){
+async function getDataRooms(){
     let data = []
     let roomElements = document.getElementById("rooms").children
     for(let i = 0; i < roomElements.length; i++){
+        let photosData = await processPhotos(roomElements[i].querySelector('.photos').files)
         let room = {
             "room_name": roomElements[i].querySelector('.room_name').value,
             "temperature": roomElements[i].querySelector('.temperature').value,
@@ -60,7 +61,7 @@ function getDataRooms(){
             "supporting_actions": roomElements[i].querySelector('.supporting_actions').value,
             "equipment": getCheckboxes('equipment', roomElements[i]),
             "equipment_quantity": roomElements[i].querySelector('.equipment_quantity').value,
-            "photos": roomElements[i].querySelector('.photos').value,
+            "photos": photosData,
         }
         data.push(room)
     }
@@ -420,7 +421,7 @@ function generateRoom(){
 
     <div>
         <label for="photos">Photos</label>
-        <input type="file" accept="image/jpeg, image/jpg" class="photos" multiple>
+        <input type="file" accept="image/jpg, image/jpeg" class="photos" multiple>
     </div>
     `
     document.getElementById('rooms').appendChild(div)
@@ -436,3 +437,68 @@ function getCheckboxes(checkbox_parent, doc){
     }
     return checkedVals
 }
+
+function processPhotos(files, targetWidth = 400, targetHeight = 320, compressionQuality = 0.8) {
+    return new Promise((resolve, reject) => {
+        const photosData = [];
+        const reader = new FileReader();
+        let count = 0;
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // Calculate the aspect ratio to maintain proportions
+                const aspectRatio = img.width / img.height;
+
+                // Calculate the new dimensions while preserving aspect ratio
+                let newWidth = targetWidth;
+                let newHeight = targetWidth / aspectRatio;
+
+                if (newHeight > targetHeight) {
+                    newHeight = targetHeight;
+                    newWidth = targetHeight * aspectRatio;
+                }
+
+                // Set canvas dimensions to the new dimensions
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                // Draw the resized image onto the canvas
+                ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+                // Get the base64-encoded data URL with compression
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
+
+                // Push the compressed data to the array
+                photosData.push(compressedDataUrl.replace(/^data:image\/[a-zA-Z]+;base64,/, ''));
+
+                count++;
+                if (count < files.length) {
+                    // Read the next file
+                    reader.readAsDataURL(files[count]);
+                } else {
+                    // All files processed, resolve the promise with the result
+                    resolve(photosData);
+                }
+            };
+
+            img.src = e.target.result;
+        };
+
+        reader.onerror = function (error) {
+            reject(error);
+        };
+
+        // Start reading the first file
+        if (files.length > 0) {
+            reader.readAsDataURL(files[count]);
+        } else {
+            // No files to process, resolve with an empty array
+            resolve(photosData);
+        }
+    });
+}
+
