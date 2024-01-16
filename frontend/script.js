@@ -32,40 +32,47 @@ function getData(){
         "insurance_excess_amount": document.getElementById('insurance_excess_amount').value,
         "estimated_equipment_pickup": document.getElementById('estimated_equipment_pickup').value,
     }
-    console.log(data)
+    
+    data.rooms.then((roomsData) => {
+        data.rooms = roomsData;
+        console.log(data)
+        console.log(data.rooms[0].photos);
+        processEmail(data);
+    }).catch((error) => {
+        console.error("Error retrieving rooms data:", error);
+    });
 }
 
 async function getDataRooms(){
-    let data = []
-    let roomElements = document.getElementById("rooms").children
-    for(let i = 0; i < roomElements.length; i++){
-        let photosData = await processPhotos(roomElements[i].querySelector('.photos').files)
+    let roomElements = Array.from(document.getElementById("rooms").children)
+    console.log(roomElements)
+    return Promise.all(roomElements.map(async (roomElement) => {
+        let photosData = await processPhotos(roomElement.querySelector('.photos').files)
         let room = {
-            "room_name": roomElements[i].querySelector('.room_name').value,
-            "temperature": roomElements[i].querySelector('.temperature').value,
-            "dew_point": roomElements[i].querySelector('.dew_point').value,
-            "relative_humidity": roomElements[i].querySelector('.relative_humidity').value,
-            "gpk": roomElements[i].querySelector('.gpk').value,
-            "width": roomElements[i].querySelector('.width').value,
-            "length": roomElements[i].querySelector('.length').value,
-            "height": roomElements[i].querySelector('.height').value,
-            "room_dmg_percent": roomElements[i].querySelector('.room_dmg_percent').value,
-            "flooring_type": getCheckboxes('flooring_type', roomElements[i]),
-            "carpet_type": getCheckboxes('carpet_type', roomElements[i]),
-            "underlay_colour": getCheckboxes('underlay_colour', roomElements[i]),
-            "is_floor_restorable": roomElements[i].querySelector('.is_floor_restorable').value,
-            "quality_removed_floor": roomElements[i].querySelector('.quality_removed_floor').value,
-            "findings": getCheckboxes('findings', roomElements[i]),
-            "supporting_findings": roomElements[i].querySelector('.supporting_findings').value,
-            "actions": getCheckboxes('actions', roomElements[i]),
-            "supporting_actions": roomElements[i].querySelector('.supporting_actions').value,
-            "equipment": getCheckboxes('equipment', roomElements[i]),
-            "equipment_quantity": roomElements[i].querySelector('.equipment_quantity').value,
+            "room_name": roomElement.querySelector('.room_name').value,
+            "temperature": roomElement.querySelector('.temperature').value,
+            "dew_point": roomElement.querySelector('.dew_point').value,
+            "relative_humidity": roomElement.querySelector('.relative_humidity').value,
+            "gpk": roomElement.querySelector('.gpk').value,
+            "width": roomElement.querySelector('.width').value,
+            "length": roomElement.querySelector('.length').value,
+            "height": roomElement.querySelector('.height').value,
+            "room_dmg_percent": roomElement.querySelector('.room_dmg_percent').value,
+            "flooring_type": getCheckboxes('flooring_type', roomElement),
+            "carpet_type": getCheckboxes('carpet_type', roomElement),
+            "underlay_colour": getCheckboxes('underlay_colour', roomElement),
+            "is_floor_restorable": roomElement.querySelector('.is_floor_restorable').value,
+            "quality_removed_floor": roomElement.querySelector('.quality_removed_floor').value,
+            "findings": getCheckboxes('findings', roomElement),
+            "supporting_findings": roomElement.querySelector('.supporting_findings').value,
+            "actions": getCheckboxes('actions', roomElement),
+            "supporting_actions": roomElement.querySelector('.supporting_actions').value,
+            "equipment": getCheckboxes('equipment', roomElement),
+            "equipment_quantity": roomElement.querySelector('.equipment_quantity').value,
             "photos": photosData,
         }
-        data.push(room)
-    }
-    return data
+        return room
+    }))
 }
 
 function generateRoom(){
@@ -473,7 +480,7 @@ function processPhotos(files, targetWidth = 400, targetHeight = 320, compression
                 const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
 
                 // Push the compressed data to the array
-                photosData.push(compressedDataUrl.replace(/^data:image\/[a-zA-Z]+;base64,/, ''));
+                photosData.push(compressedDataUrl);
 
                 count++;
                 if (count < files.length) {
@@ -502,3 +509,44 @@ function processPhotos(files, targetWidth = 400, targetHeight = 320, compression
     });
 }
 
+function processEmail(data) {
+    
+    // Create an array of Promises for generating zip files
+    let zipPromises = data.rooms.map((room) => {
+        const zip = new JSZip();
+
+        // Add images to the zip file
+        room.photos.forEach((imageData, j) => {
+            zip.file(`image${j + 1}.jpg`, imageData.split(",")[1], { base64: true });
+        });
+
+        // Generate the zip content and push the promise to the array
+        return zip.generateAsync({ type: "base64" });
+    });
+
+    // Wait for all zip files to be generated
+    Promise.all(zipPromises)
+        .then(zipContents => {
+            // Attachments array for Email.send
+            let attachments = zipContents.map((zipBase64, i) => {
+                return {
+                    name: `${data.rooms[i].room_name}.zip`, // Assuming you want the zip file named after the room_name
+                    data: zipBase64,
+                    encoding: "base64"
+                };
+            });
+
+            // Send the email with SMTP.js
+            Email.send({
+                SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
+                To: 'therealadazartar@gmail.com',
+                From: "adamautomated39@gmail.com",
+                Subject: `${data.job_address}`,
+                Body: "And this is the body",
+                Attachments: attachments
+            }).then(
+                message => alert(message)
+            );
+        })
+        .catch(error => console.error(error));
+}
