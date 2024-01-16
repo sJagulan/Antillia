@@ -35,8 +35,6 @@ function getData(){
     
     data.rooms.then((roomsData) => {
         data.rooms = roomsData;
-        console.log(data)
-        console.log(data.rooms[0].photos);
         processEmail(data);
     }).catch((error) => {
         console.error("Error retrieving rooms data:", error);
@@ -45,7 +43,6 @@ function getData(){
 
 async function getDataRooms(){
     let roomElements = Array.from(document.getElementById("rooms").children)
-    console.log(roomElements)
     return Promise.all(roomElements.map(async (roomElement) => {
         let photosData = await processPhotos(roomElement.querySelector('.photos').files)
         let room = {
@@ -536,17 +533,73 @@ function processEmail(data) {
                 };
             });
 
+            
             // Send the email with SMTP.js
             Email.send({
                 SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
                 To: 'therealadazartar@gmail.com',
                 From: "adamautomated39@gmail.com",
                 Subject: `${data.job_address}`,
-                Body: "And this is the body",
+                Body: `
+Job Address: ${data.job_address}<br>
+Account: ${data.account}<br>
+Job Category: ${data.job_category}<br>
+Attendence number and date: ${data.attendence_num_date}<br>
+Hours worked/business or after: ${data.hrs_worked_bus_or_after}<br>
+Client Discussion: ${data.client_discussion}<br>
+Date Damage Occurred: ${data.date_dmg_occurred}<br>
+Cause of Damage: ${data.cause_dmg}<br>
+Water Damage Class: ${data.water_damage_class}<br>
+Water Damage Category: ${data.water_damage_category}<br>
+Temperature: ${data.temperature}<br>
+Dew Point: ${data.dew_point}<br>
+Relative Humidity: ${data.relative_humidity}<br>
+Outdoor GPK: ${data.outdoor_gpk}<br>
+-----------------------------------------------------------------------------------------<br>
+${generateRoomText(data.rooms)}
+Next Steps: ${data.next_steps}<br>
+Other Trades: ${data.other_trades}<br>
+Matters for Consideration: ${data.matters_for_consideration}<br>
+Accomodation: ${data.accomodation}<br>
+Insurance Excess: ${data.insurance_excess}<br>
+Insurance Excess Amount: ${data.insurance_excess_amount}<br>
+Estimated Equipment Pickup: ${data.estimated_equipment_pickup}<br>
+
+                `,
                 Attachments: attachments
             }).then(
                 message => alert(message)
             );
         })
         .catch(error => console.error(error));
+}
+
+function generateRoomText(data){
+    let text = ""
+    for(let i = 0; i < data.length; i++){
+        text += `
+Room Name: ${data[i].room_name}<br>
+Temperature: ${data[i].temperature}<br>
+Dew Point: ${data[i].dew_point}<br>
+Relative Humidity: ${data[i].relative_humidity}<br>
+GPK: ${data[i].gpk}<br>
+Width: ${data[i].width}<br>
+Length: ${data[i].length}<br>
+Height: ${data[i].height}<br>
+Room Damage Percent: ${data[i].room_dmg_percent}<br>
+Flooring Type: ${data[i].flooring_type}<br>
+Carpet Type: ${data[i].carpet_type}<br>
+Colour of Underlay: ${data[i].underlay_colour}<br>
+Is Flooring Restorable: ${data[i].is_floor_restorable}<br>
+Quality of Flooring Removed: ${data[i].quality_removed_floor}<br>
+Findings: ${data[i].findings}<br>
+Supporting Findings: ${data[i].supporting_findings}<br>
+Actions: ${data[i].actions}<br>
+Supporting Actions: ${data[i].supporting_actions}<br>
+Equipment: ${data[i].equipment}<br>
+Equipment Quantity: ${data[i].equipment_quantity}<br>
+-----------------------------------------------------------------------------------------<br>
+`
+    }
+    return text
 }
