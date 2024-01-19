@@ -35,6 +35,7 @@ function getData(){
     
     data.rooms.then((roomsData) => {
         data.rooms = roomsData;
+        console.log(data)
         processEmail(data);
     }).catch((error) => {
         console.error("Error retrieving rooms data:", error);
@@ -122,7 +123,7 @@ function generateRoom(){
         <input type="text" class="room_dmg_percent">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="flooring_type">Flooring Type</label>
         <br>
         <label for="Carpet">Carpet</label>
@@ -168,7 +169,7 @@ function generateRoom(){
         <input type="checkbox" class="flooring_type" value="Other - See Findings">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="carpet_type">If Carpet, Carpet Type</label>
         <br>
         <label for="Wool">Wool</label>
@@ -199,7 +200,7 @@ function generateRoom(){
         <input type="checkbox" class="carpet_type" value="Other - Refer to findings">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="underlay_colour">Colour of Underlay</label>
         <br>
         <label for="Carpet not lifted - underlay not seen">Carpet not lifted - underlay not seen</label>
@@ -234,7 +235,7 @@ function generateRoom(){
         <input type="text" class="quality_removed_floor">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="findings">Findings</label>
         <br>
         <label for="Elevated humidity detected in the air">Elevated humidity detected in the air</label>
@@ -324,7 +325,7 @@ function generateRoom(){
         <input type="text" class="supporting_findings">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="actions">Actions</label>
         <br>
         <label for="Completed assessment">Completed assessment</label>
@@ -399,7 +400,7 @@ function generateRoom(){
         <input type="text" class="supporting_actions">
     </div>
 
-    <div>
+    <div class="checkbox-group">
         <label for="equipment">Equipment</label>
         <br>
         <label for="AFD's">AFD's</label>
@@ -537,7 +538,7 @@ function processEmail(data) {
             // Send the email with SMTP.js
             Email.send({
                 SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
-                To: 'therealadazartar@gmail.com',
+                To: 'admin@antilliaemergencynetwork.com.au',
                 From: "adamautomated39@gmail.com",
                 Subject: `${data.job_address}`,
                 Body: `
