@@ -12,6 +12,17 @@ label {
     margin-bottom: 5px;
 }
 
+textarea {
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 input[type="text"],
 select {
     width: 100%;

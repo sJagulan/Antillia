@@ -7,6 +7,10 @@ function generate(){
     console.log(doc);
 }
 
+function test(){
+    console.log(document.getElementById('job_address').value)
+}
+
 function getData(){
     let data = {
         "job_address": document.getElementById('job_address').value,
@@ -322,7 +326,7 @@ function generateRoom(){
 
     <div>
         <label for="supporting_findings">Supporting Findings</label>
-        <input type="text" class="supporting_findings">
+        <textarea type="text" class="supporting_findings"></textarea>
     </div>
 
     <div class="checkbox-group">
@@ -397,7 +401,7 @@ function generateRoom(){
     
     <div>
         <label for="supporting_actions">Supporting Actions</label>
-        <input type="text" class="supporting_actions">
+        <textarea type="text" class="supporting_actions"></textarea>
     </div>
 
     <div class="checkbox-group">
@@ -539,6 +543,7 @@ function processEmail(data) {
             Email.send({
                 SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
                 To: 'admin@antilliaemergencynetwork.com.au',
+                //To: 'therealadazartar@gmail.com',
                 From: "adamautomated39@gmail.com",
                 Subject: `${data.job_address}`,
                 Body: `
