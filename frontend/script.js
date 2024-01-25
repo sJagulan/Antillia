@@ -7,11 +7,100 @@ function generate(){
     console.log(doc);
 }
 
-function test(){
-    console.log(document.getElementById('job_address').value)
+async function saveData(){
+    let data = await getData()
+    localStorage.setItem("userData", JSON.stringify(data))
 }
 
-function getData(){
+function fillData(){
+    let storedData = localStorage.getItem("userData")
+    if(storedData){
+        let parsedData = JSON.parse(storedData)
+        console.log(parsedData)
+
+        document.getElementById('job_address').value = parsedData.job_address
+        document.getElementById('account').value = parsedData.account
+        fillCheckboxes(parsedData.job_category, 'job_category', document)
+        document.getElementById('attendence_num_date').value = parsedData.attendence_num_date
+        document.getElementById('hrs_worked_bus_or_after').value = parsedData.hrs_worked_bus_or_after
+        document.getElementById('client_discussion').value = parsedData.client_discussion
+        document.getElementById('date_dmg_occurred').value = parsedData.date_dmg_occurred
+        document.getElementById('cause_dmg').value = parsedData.cause_dmg
+        document.getElementById('water_damage_class').value = parsedData.water_damage_class
+        document.getElementById('water_damage_category').value = parsedData.water_damage_category
+        document.getElementById('temperature').value = parsedData.temperature
+        document.getElementById('dew_point').value = parsedData.dew_point
+        document.getElementById('relative_humidity').value = parsedData.relative_humidity
+        document.getElementById('outdoor_gpk').value = parsedData.outdoor_gpk
+        document.getElementById('next_steps').value = parsedData.next_steps
+        document.getElementById('other_trades').value = parsedData.other_trades
+        document.getElementById('matters_for_consideration').value = parsedData.matters_for_consideration
+        document.getElementById('accomodation').value = parsedData.accomodation
+        document.getElementById('insurance_excess').value = parsedData.insurance_excess
+        document.getElementById('insurance_excess_amount').value = parsedData.insurance_excess_amount
+        document.getElementById('estimated_equipment_pickup').value = parsedData.estimated_equipment_pickup
+
+        let roomsDiv = document.getElementById('rooms')
+        roomsDiv.innerHTML = ""
+        for(let i = 0; i < parsedData.rooms.length; i++){
+            generateRoom()
+            let divs = roomsDiv.getElementsByTagName('div')
+            divs[i].querySelector('.room_name').value = parsedData.rooms[i].room_name
+            divs[i].querySelector('.temperature').value = parsedData.rooms[i].temperature
+            divs[i].querySelector('.dew_point').value = parsedData.rooms[i].dew_point
+            divs[i].querySelector('.relative_humidity').value = parsedData.rooms[i].relative_humidity
+            divs[i].querySelector('.gpk').value = parsedData.rooms[i].gpk
+            divs[i].querySelector('.width').value = parsedData.rooms[i].width
+            divs[i].querySelector('.length').value = parsedData.rooms[i].length
+            divs[i].querySelector('.height').value = parsedData.rooms[i].height
+            divs[i].querySelector('.room_dmg_percent').value = parsedData.rooms[i].room_dmg_percent
+            fillCheckboxes(parsedData.rooms[i].flooring_type, 'flooring_type', divs[i])
+            fillCheckboxes(parsedData.rooms[i].carpet_type, 'carpet_type', divs[i])
+            fillCheckboxes(parsedData.rooms[i].underlay_colour, 'underlay_colour', divs[i])
+            divs[i].querySelector('.is_floor_restorable').value = parsedData.rooms[i].is_floor_restorable
+            divs[i].querySelector('.quality_removed_floor').value = parsedData.rooms[i].quality_removed_floor
+            fillCheckboxes(parsedData.rooms[i].findings, 'findings', divs[i])
+            divs[i].querySelector('.supporting_findings').value = parsedData.rooms[i].supporting_findings
+            fillCheckboxes(parsedData.rooms[i].actions, 'actions', divs[i])
+            divs[i].querySelector('.supporting_actions').value = parsedData.rooms[i].supporting_actions
+            fillCheckboxes(parsedData.rooms[i].equipment, 'equipment', divs[i])
+            divs[i].querySelector('.equipment_quantity').value = parsedData.rooms[i].equipment_quantity
+            const photosDiv = divs[i].querySelector('.selectedPhotos');
+            parsedData.rooms[i].photos.forEach((base64Data, index) => {
+                const photoElement = document.createElement('div');
+
+                // Display the image name
+                const fileNameElement = document.createElement('div');
+                fileNameElement.textContent = `photo${index}`;  // Add the actual file name if available
+                photoElement.appendChild(fileNameElement);
+
+                const img = document.createElement('img');
+                img.src = base64Data;
+                photoElement.appendChild(img);
+
+                // Add a delete button for each photo
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', () => {
+                    // Handle delete functionality here
+                    // For now, let's just remove the image from the DOM
+                    photoElement.remove();
+                });
+                photoElement.appendChild(deleteButton);
+
+                photosDiv.appendChild(photoElement);
+            });
+        }
+    }
+    else{
+        console.log("No cached data")
+    }
+    
+}
+
+window.onload = fillData()
+
+async function getData(){
     let data = {
         "job_address": document.getElementById('job_address').value,
         "account": document.getElementById('account').value,
@@ -27,7 +116,7 @@ function getData(){
         "dew_point": document.getElementById('dew_point').value,
         "relative_humidity": document.getElementById('relative_humidity').value,
         "outdoor_gpk": document.getElementById('outdoor_gpk').value,
-        "rooms": getDataRooms(),
+        "rooms": await getDataRooms(),
         "next_steps": document.getElementById('next_steps').value,
         "other_trades": document.getElementById('other_trades').value,
         "matters_for_consideration": document.getElementById('matters_for_consideration').value,
@@ -36,20 +125,13 @@ function getData(){
         "insurance_excess_amount": document.getElementById('insurance_excess_amount').value,
         "estimated_equipment_pickup": document.getElementById('estimated_equipment_pickup').value,
     }
-    
-    data.rooms.then((roomsData) => {
-        data.rooms = roomsData;
-        console.log(data)
-        processEmail(data);
-    }).catch((error) => {
-        console.error("Error retrieving rooms data:", error);
-    });
+    console.log(data)
+    return data
 }
 
 async function getDataRooms(){
     let roomElements = Array.from(document.getElementById("rooms").children)
     return Promise.all(roomElements.map(async (roomElement) => {
-        let photosData = await processPhotos(roomElement.querySelector('.photos').files)
         let room = {
             "room_name": roomElement.querySelector('.room_name').value,
             "temperature": roomElement.querySelector('.temperature').value,
@@ -71,7 +153,7 @@ async function getDataRooms(){
             "supporting_actions": roomElement.querySelector('.supporting_actions').value,
             "equipment": getCheckboxes('equipment', roomElement),
             "equipment_quantity": roomElement.querySelector('.equipment_quantity').value,
-            "photos": photosData,
+            "photos": await processPhotos(roomElement.querySelector('.photoroom')),
         }
         return room
     }))
@@ -428,12 +510,15 @@ function generateRoom(){
         <input type="text" class="equipment_quantity">
     </div>
 
-    <div>
+    <div class="photoroom">
         <label for="photos">Photos</label>
         <input type="file" accept="image/jpg, image/jpeg" class="photos" multiple>
+        <div class="selectedPhotos"></div>
     </div>
     `
     document.getElementById('rooms').appendChild(div)
+    setupFileInputs()
+    
 }
 
 function getCheckboxes(checkbox_parent, doc){
@@ -447,106 +532,106 @@ function getCheckboxes(checkbox_parent, doc){
     return checkedVals
 }
 
-function processPhotos(files, targetWidth = 400, targetHeight = 320, compressionQuality = 0.8) {
+function fillCheckboxes(items, checkbox_parent, doc){
+    let inputElements = doc.getElementsByClassName(checkbox_parent)
+    for(let i=0; i < items.length; i++){
+        for(let j=0; j < inputElements.length; j++){
+            if(items[i] === inputElements[j].value){
+                inputElements[j].checked = true
+                break
+            }
+        }
+    }
+}
+
+async function processPhotos(photosDiv) {
     return new Promise((resolve, reject) => {
-        const photosData = [];
-        const reader = new FileReader();
-        let count = 0;
+        const existingImages = photosDiv.querySelectorAll('.selectedPhotos img');
+        const base64Array = [];
+        let processedCount = 0;
 
-        reader.onload = function (e) {
+        if (existingImages.length === 0) {
+            // If no images, resolve with an empty array
+            resolve(base64Array);
+        }
+
+        existingImages.forEach((imgElement, index) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Create a new Image object to load the image
             const img = new Image();
+
+            // Set up an event listener to handle image load
             img.onload = function () {
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
+                // Set canvas dimensions to the image dimensions
+                canvas.width = img.width;
+                canvas.height = img.height;
 
-                // Calculate the aspect ratio to maintain proportions
-                const aspectRatio = img.width / img.height;
+                // Draw the image onto the canvas
+                ctx.drawImage(img, 0, 0, img.width, img.height);
 
-                // Calculate the new dimensions while preserving aspect ratio
-                let newWidth = targetWidth;
-                let newHeight = targetWidth / aspectRatio;
+                // Get the base64-encoded data URL
+                const base64Data = canvas.toDataURL('image/jpeg');
+                base64Array.push(base64Data);
 
-                if (newHeight > targetHeight) {
-                    newHeight = targetHeight;
-                    newWidth = targetHeight * aspectRatio;
-                }
-
-                // Set canvas dimensions to the new dimensions
-                canvas.width = newWidth;
-                canvas.height = newHeight;
-
-                // Draw the resized image onto the canvas
-                ctx.drawImage(img, 0, 0, newWidth, newHeight);
-
-                // Get the base64-encoded data URL with compression
-                const compressedDataUrl = canvas.toDataURL('image/jpeg', compressionQuality);
-
-                // Push the compressed data to the array
-                photosData.push(compressedDataUrl);
-
-                count++;
-                if (count < files.length) {
-                    // Read the next file
-                    reader.readAsDataURL(files[count]);
-                } else {
-                    // All files processed, resolve the promise with the result
-                    resolve(photosData);
+                // Check if this is the last image
+                processedCount++;
+                if (processedCount === existingImages.length) {
+                    resolve(base64Array);
                 }
             };
 
-            img.src = e.target.result;
-        };
+            // Set up an event listener to handle image load errors
+            img.onerror = function () {
+                reject(new Error('Error loading image.'));
+            };
 
-        reader.onerror = function (error) {
-            reject(error);
-        };
-
-        // Start reading the first file
-        if (files.length > 0) {
-            reader.readAsDataURL(files[count]);
-        } else {
-            // No files to process, resolve with an empty array
-            resolve(photosData);
-        }
+            // Set the src attribute to start loading the image
+            img.src = imgElement.src;
+        });
     });
 }
 
-function processEmail(data) {
+
+function processEmail() {
     
-    // Create an array of Promises for generating zip files
-    let zipPromises = data.rooms.map((room) => {
-        const zip = new JSZip();
+    getData().then((data) => {
+        console.log(data.rooms.photos)
+        // Create an array of Promises for generating zip files
+        let zipPromises = data.rooms.map((room) => {
+            const zip = new JSZip();
 
-        // Add images to the zip file
-        room.photos.forEach((imageData, j) => {
-            zip.file(`image${j + 1}.jpg`, imageData.split(",")[1], { base64: true });
-        });
-
-        // Generate the zip content and push the promise to the array
-        return zip.generateAsync({ type: "base64" });
-    });
-
-    // Wait for all zip files to be generated
-    Promise.all(zipPromises)
-        .then(zipContents => {
-            // Attachments array for Email.send
-            let attachments = zipContents.map((zipBase64, i) => {
-                return {
-                    name: `${data.rooms[i].room_name}.zip`, // Assuming you want the zip file named after the room_name
-                    data: zipBase64,
-                    encoding: "base64"
-                };
+            // Add images to the zip file
+            room.photos.forEach((imageData, j) => {
+                zip.file(`image${j + 1}.jpg`, imageData.split(",")[1], { base64: true });
             });
 
-            
-            // Send the email with SMTP.js
-            Email.send({
-                SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
-                To: 'admin@antilliaemergencynetwork.com.au',
-                //To: 'therealadazartar@gmail.com',
-                From: "adamautomated39@gmail.com",
-                Subject: `${data.job_address}`,
-                Body: `
+            // Generate the zip content and push the promise to the array
+            return zip.generateAsync({ type: "base64" });
+        });
+
+        // Wait for all zip files to be generated
+        Promise.all(zipPromises)
+            .then(zipContents => {
+                // Attachments array for Email.send
+                let attachments = zipContents.map((zipBase64, i) => {
+                    return {
+                        name: `${data.rooms[i].room_name}.zip`, // Assuming you want the zip file named after the room_name
+                        data: zipBase64,
+                        encoding: "base64"
+                    };
+                });
+
+                
+                // Send the email with SMTP.js
+                Email.send({
+                    SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
+                    To: 'admin@antilliaemergencynetwork.com.au',
+                    //To: 'therealadazartar@gmail.com',
+                    From: "adamautomated39@gmail.com",
+                    Subject: `${data.job_address}`,
+                    Body: `
 Job Address: ${data.job_address}<br>
 Account: ${data.account}<br>
 Job Category: ${data.job_category}<br>
@@ -571,13 +656,26 @@ Insurance Excess: ${data.insurance_excess}<br>
 Insurance Excess Amount: ${data.insurance_excess_amount}<br>
 Estimated Equipment Pickup: ${data.estimated_equipment_pickup}<br>
 
-                `,
-                Attachments: attachments
-            }).then(
-                message => alert(message)
-            );
-        })
-        .catch(error => console.error(error));
+                    `,
+                    Attachments: attachments
+                }).then(
+                    message => {
+                        const messageContainer = document.createElement('div');
+                        if(message === 'OK'){
+                            messageContainer.textContent = "Email sent successfully!";
+                            localStorage.clear()
+
+                            
+                        }
+                        else{
+                            messageContainer.textContent = "Email failed try again later"
+                        }
+                        document.body.appendChild(messageContainer);
+                    }
+                );
+            })
+            .catch(error => console.error(error));
+    })
 }
 
 function generateRoomText(data){
@@ -609,3 +707,108 @@ Equipment Quantity: ${data[i].equipment_quantity}<br>
     }
     return text
 }
+
+
+function handleFileSelect(event, newWidth = 800, newHeight = 640) {
+    const fileInput = event.target;
+    const roomDiv = fileInput.closest('.photoroom');
+    const photoContainer = roomDiv.querySelector('.selectedPhotos');
+
+    // Display selected photos for the specific room
+    for (const file of fileInput.files) {
+        const photoElement = document.createElement('div');
+
+        // Display the image name
+        const fileNameElement = document.createElement('div');
+        fileNameElement.textContent = file.name;
+        photoElement.appendChild(fileNameElement);
+
+        const imgElement = document.createElement('img');
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+                // Calculate the aspect ratio to maintain proportions
+                const aspectRatio = img.width / img.height;
+
+                // Calculate the new dimensions while preserving aspect ratio
+                if (aspectRatio > 1) {
+                    newHeight = newWidth / aspectRatio;
+                } else {
+                    newWidth = newHeight * aspectRatio;
+                }
+
+                // Set imgElement dimensions
+                imgElement.width = newWidth;
+                imgElement.height = newHeight;
+
+                // Display the processed image
+                imgElement.src = resizeImage(img, newWidth, newHeight);
+            };
+
+            img.src = e.target.result;
+        };
+
+        reader.readAsDataURL(file);
+
+        // Append the image element to the container
+        photoElement.appendChild(imgElement);
+
+        // Add a remove button for each photo
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', () => {
+            // Remove the associated photo when the button is clicked
+            photoElement.remove();
+
+            // Remove the corresponding file from the file input
+            const newFiles = Array.from(fileInput.files).filter(f => f !== file);
+            updateFileInput(fileInput, newFiles);
+        });
+
+        // Append the remove button to the container
+        photoElement.appendChild(removeButton);
+        photoContainer.appendChild(photoElement);
+    }
+}
+
+function resizeImage(img, newWidth, newHeight) {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set canvas dimensions to the new dimensions
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+
+    // Draw the resized image onto the canvas
+    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+    // Get the base64-encoded data URL
+    return canvas.toDataURL('image/jpeg');
+}
+
+function updateFileInput(fileInput, files) {
+    // Clear the existing files in the input
+    fileInput.value = null;
+
+    // Create a new DataTransfer object and add the files
+    const dataTransfer = new DataTransfer();
+    files.forEach(file => {
+        dataTransfer.items.add(file);
+    });
+
+    // Update the file input with the new files
+    fileInput.files = dataTransfer.files;
+}
+
+function setupFileInputs(){
+    const fileInputs = document.querySelectorAll('.photos');
+    fileInputs.forEach(fileInput => {
+        fileInput.addEventListener('change', handleFileSelect);
+    });
+}
+
+setupFileInputs()
+
+
