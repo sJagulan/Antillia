@@ -1,158 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antillia Automater</title>
-    <link rel="icon" href="logo.ico" type="image/x-icon">
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
-    <script defer src="script.js"></script>
+    <title>Antillia Emergency Network</title>
+    <link rel="stylesheet" href="indexstyles.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="logo.ico">
+    <link rel="manifest" href="manifest.json">
+    <script defer src="indexscript.js"></script>
+
+
+
 </head>
 <body>
-    <!--<button onclick=test()>Test</button> -->
-    <div>
-        <label for="job_address">Job Address</label>
-        <input type="text" id="job_address">
+    <div class="container">
+        <img src="LOGO.png" alt="Antillia Emergency Network Logo" id="logo">
+        <h1>Antillia Emergency Network</h1>
+        <a href="form.html" id="newJobLink"><button>+ New Job</button></a>
+        <div id="jobsContainer"></div>
     </div>
-
-    <div>
-        <label for="account">Account</label>
-        <input type="text" id="account">
-    </div>
-
-    <div class="checkbox-group">
-        <label for="job_category">Job Category</label>
-        <br>
-        <label for="Water Damage Restoration">Water Damage Restoration</label>
-        <input type="checkbox" class="job_category" value="Water Damage Restoration">
-
-        <label for="Mould Remediation">Mould Remediation</label>
-        <input type="checkbox" class="job_category" value="Mould Remediation">
-
-        <label for="Fire Restoration">Fire Restoration</label>
-        <input type="checkbox" class="job_category" value="Fire Restoration">
-
-        <label for="Contents">Fire Contents</label>
-        <input type="checkbox" class="job_category" value="Contents">
-
-        <label for="Cleaning">Cleaning</label>
-        <input type="checkbox" class="job_category" value="Cleaning">
-
-    </div>
-
-    <div>
-        <label for="attendence_num_date">Attendence Number and Date</label>
-        <input type="text" id="attendence_num_date">
-    </div>
-
-    <div>
-        <label for="hrs_worked_bus_or_after">Hours Worked/Business or After</label>
-        <input type="text" id="hrs_worked_bus_or_after">
-    </div>
-
-    <div>
-        <label for="client_discussion">Client Discussion</label>
-        <textarea type="text" id="client_discussion"></textarea>
-    </div>
-
-    <div>
-        <label for="date_dmg_occurred">Date Damage Occurred</label>
-        <input type="text" id="date_dmg_occurred">
-    </div>
-
-    <div>
-        <label for="cause_dmg">Cause of Damage</label>
-        <input type="text" id="cause_dmg">
-    </div>
-
-    <div>
-        <label for="water_damage_class">Water Damage Class</label>
-        <select id="water_damage_class">
-            <option value="Not Applicable">Not Applicable</option>
-            <option value="Class 1- Least amount of water absorption and evaporation load">Class 1- Least amount of water absorption and evaporation load</option>
-            <option value="Class 2 - Significant amount of water absorption and evaporation load">Class 2 - Significant amount of water absorption and evaporation load</option>
-            <option value="Class 3 - Greatest amount of water absorption and evaporation load">Class 3 - Greatest amount of water absorption and evaporation load</option>
-            <option value="Class 4 - Deeply held or bound water">Class 4 - Deeply held or bound water</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="water_damage_category">Water Damage Category</label>
-        <select id="water_damage_category">
-            <option value="Not Applicable">Not Applicable</option>
-            <option value="Category 1 - Clean Water">Category 1 - Clean Water</option>
-            <option value="Category 2 - Grey Water">Category 2 - Grey Water</option>
-            <option value="Category 3 - Black Water">Category 3 - Black Water</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="temperature">Temperature</label>
-        <input type="text" id="temperature">
-    </div>
-
-    <div>
-        <label for="dew_point">Dew Point</label>
-        <input type="text" id="dew_point">
-    </div>
-
-    <div>
-        <label for="relative_humidity">Relative Humidity</label>
-        <input type="text" id="relative_humidity">
-    </div>
-
-    <div>
-        <label for="outdoor_gpk">Outdoor GPK</label>
-        <input type="text" id="outdoor_gpk">
-    </div>
-
-    <div id="rooms"></div>
-
-    <button onclick=generateRoom()>Add Room</button>
-
-    <div>
-        <label for="next_steps">Next Steps Y/N - What</label>
-        <input type="text" id="next_steps">
-    </div>
-
-    <div>
-        <label for="other_trades">Other Trades Y/N - What</label>
-        <input type="text" id="other_trades">
-    </div>
-
-    <div>
-        <label for="matters_for_consideration">Matters For Consideration</label>
-        <textarea type="text" id="matters_for_consideration"></textarea>
-    </div>
-
-    <div>
-        <label for="accomodation">Accomodation Y/N - Days</label>
-        <input type="text" id="accomodation">
-    </div>
-
-    <div>
-        <label for="insurance_excess">Insurance Excess</label>
-        <select id="insurance_excess">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="insurance_excess_amount">Insurance Excess - Amount</label>
-        <input type="text" id="insurance_excess_amount">
-    </div>
-
-    <div>
-        <label for="estimated_equipment_pickup">Estimated Equipment Pickup</label>
-        <input type="text" id="estimated_equipment_pickup">
-    </div>
-
-    <button id="saveButton" onclick=saveData()>Save Data</button>
-    <!-- <button onclick=fillData()>Fill Data</button> -->
-    <button onclick=processEmail()>Send Email</button>
-    
-
 </body>
+</html>
+

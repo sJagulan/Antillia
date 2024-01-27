@@ -163,7 +163,8 @@ function generateRoom(){
     let div = document.createElement('div')
     div.innerHTML = `
     <button type="button" onclick="this.parentElement.remove()">Delete Room</button>
-
+    <br>
+    <br>
     <div>
         <label for="room_name">Room Name</label>
         <input type="text" class="room_name">
