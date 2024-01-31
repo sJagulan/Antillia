@@ -21,52 +21,71 @@
 
         <div>
             <label for="account">Account</label>
-            <input type="text" id="account">
+            <input list="account" type="text" id="account" autocomplete="off" onclick=showOptions(this)>
+
+            <div class="dropdown">
+
+            </div>
+
+            <datalist id="account">
+                <option value="ANT"></option>
+                <option value="JLG"></option>
+                <option value="RestorX"></option>
+                <option value="Rizon"></option>
+                <option value="TCMS"></option>
+                <option value="Private"></option>
+            </datalist>
+
         </div>
 
         <div class="checkbox-group">
             <label for="job_category">Job Category</label>
             <br>
-            <label for="Water Damage Restoration">Water Damage Restoration</label>
-            <input type="checkbox" class="job_category" value="Water Damage Restoration">
+            <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
+            <div class="collapsable-content">
+                <label for="Water Damage Restoration">Water Damage Restoration</label>
+                <input type="checkbox" class="job_category" value="Water Damage Restoration">
 
-            <label for="Mould Remediation">Mould Remediation</label>
-            <input type="checkbox" class="job_category" value="Mould Remediation">
+                <label for="Mould Remediation">Mould Remediation</label>
+                <input type="checkbox" class="job_category" value="Mould Remediation">
 
-            <label for="Fire Restoration">Fire Restoration</label>
-            <input type="checkbox" class="job_category" value="Fire Restoration">
+                <label for="Fire Damage Restoration">Fire Damage Restoration</label>
+                <input type="checkbox" class="job_category" value="Fire Damage Restoration">
 
-            <label for="Contents">Fire Contents</label>
-            <input type="checkbox" class="job_category" value="Contents">
-
-            <label for="Cleaning">Cleaning</label>
-            <input type="checkbox" class="job_category" value="Cleaning">
+                <label for="Commerical Cleaning">Commerical Cleaning</label>
+                <input type="checkbox" class="job_category" value="Commerical Cleaning">
+            </div>
 
         </div>
 
         <div>
-            <label for="attendence_num_date">Attendence Number and Date</label>
-            <input type="text" id="attendence_num_date">
+            <label for="start_time">Start Time</label>
+            <input type="datetime-local" id="start_time">
         </div>
 
         <div>
-            <label for="hrs_worked_bus_or_after">Hours Worked/Business or After</label>
-            <input type="text" id="hrs_worked_bus_or_after">
+            <label for="num_resources">Number of Resources</label>
+            <input type="number" id="num_resources" min="1">
         </div>
 
         <div>
-            <label for="client_discussion">Client Discussion</label>
-            <textarea type="text" id="client_discussion"></textarea>
-        </div>
-
-        <div>
-            <label for="date_dmg_occurred">Date Damage Occurred</label>
-            <input type="text" id="date_dmg_occurred">
+            <label for="date_damage">Date Damage Occurred</label>
+            <input type="date" id="date_damage">
         </div>
 
         <div>
             <label for="cause_dmg">Cause of Damage</label>
             <input type="text" id="cause_dmg">
+        </div>
+
+        <div>
+            <label for="attendence_num">Attendence Number</label>
+            <input type="number" id="attendence_num" min="1">
+        </div>
+
+        <div>
+            <label for="client_discussion">Client Discussion</label>
+            <textarea type="text" id="client_discussion"></textarea>
         </div>
 
         <div>
@@ -91,23 +110,23 @@
         </div>
 
         <div>
-            <label for="temperature">Temperature</label>
-            <input type="text" id="temperature">
+            <label for="outdoor_temperature">Outdoor Temperature</label>
+            <input type="number" id="outdoor_temperature" min="1">
         </div>
 
         <div>
-            <label for="dew_point">Dew Point</label>
-            <input type="text" id="dew_point">
+            <label for="outdoor_dew_point">Outdoor Dew Point</label>
+            <input type="number" id="outdoor_dew_point" min="1">
         </div>
 
         <div>
-            <label for="relative_humidity">Relative Humidity</label>
-            <input type="text" id="relative_humidity">
+            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
+            <input type="number" id="outdoor_relative_humidity" min="1">
         </div>
 
         <div>
             <label for="outdoor_gpk">Outdoor GPK</label>
-            <input type="text" id="outdoor_gpk">
+            <input type="number" id="outdoor_gpk" min="1">
         </div>
 
         <div id="rooms"></div>
@@ -136,26 +155,20 @@
         </div>
 
         <div>
-            <label for="insurance_excess">Insurance Excess</label>
-            <select id="insurance_excess">
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="insurance_excess_amount">Insurance Excess - Amount</label>
-            <input type="text" id="insurance_excess_amount">
-        </div>
-
-        <div>
             <label for="estimated_equipment_pickup">Estimated Equipment Pickup</label>
-            <input type="text" id="estimated_equipment_pickup">
+            <input type="date" id="estimated_equipment_pickup">
+        </div>
+
+        <div>
+            <label for="end_time">End Time</label>
+            <input type="datetime-local" id="end_time">
         </div>
 
         <button id="saveButton" onclick=saveData()>Save Data</button>
         <!-- <button onclick=fillData()>Fill Data</button> -->
         <button onclick=processEmail()>Send Email</button>
+        <br>
+        <br>
         
     </div>
 </body>

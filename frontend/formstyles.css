@@ -75,3 +75,28 @@ button:hover {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.collapsable-content {
+    display: block
+}
+
+.dropdown-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.checkbox-group {
+    position: relative; /* Add relative positioning to the container */
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-height: 100px;
+    overflow-y: auto;
+    z-index: 999;
+    padding: 5px;
+}
