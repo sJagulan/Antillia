@@ -321,7 +321,7 @@ function generateRoom(){
     
     <div>
         <label for="is_floor_restorable">Is Flooring Restorable</label>
-        <select id="is_floor_restorable">
+        <select class="is_floor_restorable">
             <option value="Not Applicable">Not Applicable</option>
             <option value="No">No</option>
             <option value="Yes">Yes</option>
