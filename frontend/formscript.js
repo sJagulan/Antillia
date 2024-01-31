@@ -58,7 +58,7 @@ function fillData(){
             fillCheckboxes(parsedData.rooms[i].carpet_type, 'carpet_type', divs[i])
             fillCheckboxes(parsedData.rooms[i].underlay_colour, 'underlay_colour', divs[i])
             divs[i].querySelector('.is_floor_restorable').value = parsedData.rooms[i].is_floor_restorable
-            divs[i].querySelector('.quality_removed_floor').value = parsedData.rooms[i].quality_removed_floor
+            divs[i].querySelector('.quantity_removed_floor').value = parsedData.rooms[i].quantity_removed_floor
             fillCheckboxes(parsedData.rooms[i].findings, 'findings', divs[i])
             divs[i].querySelector('.supporting_findings').value = parsedData.rooms[i].supporting_findings
             fillCheckboxes(parsedData.rooms[i].actions, 'actions', divs[i])
@@ -145,7 +145,7 @@ async function getDataRooms(){
             "carpet_type": getCheckboxes('carpet_type', roomElement),
             "underlay_colour": getCheckboxes('underlay_colour', roomElement),
             "is_floor_restorable": roomElement.querySelector('.is_floor_restorable').value,
-            "quality_removed_floor": roomElement.querySelector('.quality_removed_floor').value,
+            "quantity_removed_floor": roomElement.querySelector('.quantity_removed_floor').value,
             "findings": getCheckboxes('findings', roomElement),
             "supporting_findings": roomElement.querySelector('.supporting_findings').value,
             "actions": getCheckboxes('actions', roomElement),
@@ -325,8 +325,8 @@ function generateRoom(){
     </div>
 
     <div>
-        <label for="quality_removed_floor">Quality of Flooring Removed</label>
-        <input type="text" class="quality_removed_floor">
+        <label for="quantity_removed_floor">Quantity of Flooring Removed (meters squared)</label>
+        <input type="text" class="quantity_removed_floor">
     </div>
 
     <div class="checkbox-group">
@@ -774,7 +774,7 @@ Flooring Type: ${data[i].flooring_type}<br>
 Carpet Type: ${data[i].carpet_type}<br>
 Colour of Underlay: ${data[i].underlay_colour}<br>
 Is Flooring Restorable: ${data[i].is_floor_restorable}<br>
-Quality of Flooring Removed: ${data[i].quality_removed_floor}<br>
+Quantity of Flooring Removed: ${data[i].quantity_removed_floor}<br>
 Findings: ${data[i].findings}<br>
 Supporting Findings: ${data[i].supporting_findings}<br>
 Actions: ${data[i].actions}<br>
