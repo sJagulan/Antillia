@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antillia Automater</title>
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="ATD_ATPstyles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script defer src="ATD_ATPscript.js"></script>
+</head>
+<body>
+    <div id="form">
+        <h2>Authority to Remove and Dispose</h2>
+        <div>
+            <label for="client_address">Client Address</label>
+            <input type="text" id="client_address">
+        </div>
+
+        <div>
+            <label for="client_name">Client Name</label>
+            <input type="text" id="client_name">
+        </div>
+
+        <div>
+            <label for="client_type">Client Type</label>
+            <select id="client_type">
+                <option value="Owner">Owner</option>
+                <option value="Tenant">Tenant</option>
+                <option value="Landlord">Landlord</option>
+                <option value="Authorised Contact">Authorised Contact</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="signature">Signature</label>
+            <div class="wrapper">
+                <canvas id="signature" class="signature" width=400 height=200></canvas>
+            </div>
+            <button id="clear">Clear</button>
+            <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
+        </div>
+
+        <div>
+            <label for="date">Date</label>
+            <input type="date" id="date">
+        </div>
+
+        <div>
+            <label for="time_stamp">Time Stamp</label>
+            <input type="time" id="time_stamp">
+        </div>
+
+        <button id="saveButton" onclick=saveData()>Save Data</button>
+        <!-- <button onclick=fillData()>Fill Data</button> -->
+        <button onclick=processEmail()>Send Email</button>
+        <br>
+        <br>
+
+
+    </body>
+
+    </div>
+</body>
