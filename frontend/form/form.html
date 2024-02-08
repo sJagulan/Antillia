@@ -19,6 +19,12 @@
             <input type="text" id="job_address">
         </div>
 
+        <div class="photocollection-form">
+            <label for="outside">Outside</label>
+            <input type="file" accept="image/jpg, image/jpeg" class="photos">
+            <div class="selectedPhotos"></div>
+        </div>
+
         <div>
             <label for="account">Account</label>
             <input list="account" type="text" id="account" autocomplete="off" onclick=showOptions(this)>
@@ -39,24 +45,14 @@
 
         </div>
 
-        <div class="checkbox-group">
+        <div>
             <label for="job_category">Job Category</label>
-            <br>
-            <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
-            <div class="collapsable-content">
-                <label for="Water Damage Restoration">Water Damage Restoration</label>
-                <input type="checkbox" class="job_category" value="Water Damage Restoration">
-
-                <label for="Mould Remediation">Mould Remediation</label>
-                <input type="checkbox" class="job_category" value="Mould Remediation">
-
-                <label for="Fire Damage Restoration">Fire Damage Restoration</label>
-                <input type="checkbox" class="job_category" value="Fire Damage Restoration">
-
-                <label for="Commerical Cleaning">Commerical Cleaning</label>
-                <input type="checkbox" class="job_category" value="Commerical Cleaning">
-            </div>
-
+            <select id="job_category">
+                <option value="Water Damage Restoration">Water Damage Restoration</option>
+                <option value="Mould Remediation">Mould Remediation</option>
+                <option value="Fire Damage Restoration">Fire Damage Restoration</option>
+                <option value="Commerical Cleaning">Commerical Cleaning</option>
+            </select>
         </div>
 
         <div>
@@ -116,13 +112,13 @@
         </div>
 
         <div>
-            <label for="outdoor_dew_point">Outdoor Dew Point</label>
-            <input type="number" id="outdoor_dew_point" min="1">
+            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
+            <input type="number" id="outdoor_relative_humidity" min="1">
         </div>
 
         <div>
-            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
-            <input type="number" id="outdoor_relative_humidity" min="1">
+            <label for="outdoor_dew_point">Outdoor Dew Point</label>
+            <input type="number" id="outdoor_dew_point" min="1">
         </div>
 
         <div>
@@ -136,13 +132,23 @@
         <br>
         <br>
         <div>
-            <label for="next_steps">Next Steps Y/N - What</label>
+            <label for="next_steps">Next Steps (Y/N)</label>
             <input type="text" id="next_steps">
         </div>
 
         <div>
-            <label for="other_trades">Other Trades Y/N - What</label>
+            <label for="next_steps_typing">Comments</label>
+            <textarea type="text" id="next_steps_typing"></textarea>
+        </div>
+
+        <div>
+            <label for="other_trades">Other Trades (Y/N)</label>
             <input type="text" id="other_trades">
+        </div>
+
+        <div>
+            <label for="other_trades_typing">Comments</label>
+            <textarea type="text" id="other_trades_typing"></textarea>
         </div>
 
         <div>

@@ -28,34 +28,25 @@
             </div>
 
             <datalist id="account">
-                <option value="ANT"></option>
-                <option value="JLG"></option>
-                <option value="RestorX"></option>
-                <option value="Rizon"></option>
-                <option value="TCMS"></option>
+                <option value="ANT Renovations"></option>
+                <option value="Emergency Trade Services"></option>
+                <option value="Johns Lyng Group"></option>
+                <option value="RestorX Major Loss Pty Ltd"></option>
+                <option value="Rizon Commercial"></option>
+                <option value="Total Construction and Maintenance Solutions"></option>
                 <option value="Private"></option>
             </datalist>
 
         </div>
 
-        <div class="checkbox-group">
+        <div>
             <label for="job_category">Job Category</label>
-            <br>
-            <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
-            <div class="collapsable-content">
-                <label for="Water Damage Restoration">Water Damage Restoration</label>
-                <input type="checkbox" class="job_category" value="Water Damage Restoration">
-
-                <label for="Mould Remediation">Mould Remediation</label>
-                <input type="checkbox" class="job_category" value="Mould Remediation">
-
-                <label for="Fire Damage Restoration">Fire Damage Restoration</label>
-                <input type="checkbox" class="job_category" value="Fire Damage Restoration">
-
-                <label for="Commerical Cleaning">Commerical Cleaning</label>
-                <input type="checkbox" class="job_category" value="Commerical Cleaning">
-            </div>
-
+            <select id="job_category">
+                <option value="Water Damage Restoration">Water Damage Restoration</option>
+                <option value="Mould Remediation">Mould Remediation</option>
+                <option value="Fire Damage Restoration">Fire Damage Restoration</option>
+                <option value="Commerical Cleaning">Commerical Cleaning</option>
+            </select>
         </div>
 
         <div>
@@ -89,44 +80,8 @@
         </div>
 
         <div>
-            <label for="water_damage_class">Water Damage Class</label>
-            <select id="water_damage_class">
-                <option value="Not Applicable">Not Applicable</option>
-                <option value="Class 1- Least amount of water absorption and evaporation load">Class 1- Least amount of water absorption and evaporation load</option>
-                <option value="Class 2 - Significant amount of water absorption and evaporation load">Class 2 - Significant amount of water absorption and evaporation load</option>
-                <option value="Class 3 - Greatest amount of water absorption and evaporation load">Class 3 - Greatest amount of water absorption and evaporation load</option>
-                <option value="Class 4 - Deeply held or bound water">Class 4 - Deeply held or bound water</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="water_damage_category">Water Damage Category</label>
-            <select id="water_damage_category">
-                <option value="Not Applicable">Not Applicable</option>
-                <option value="Category 1 - Clean Water">Category 1 - Clean Water</option>
-                <option value="Category 2 - Grey Water">Category 2 - Grey Water</option>
-                <option value="Category 3 - Black Water">Category 3 - Black Water</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="outdoor_temperature">Outdoor Temperature</label>
-            <input type="number" id="outdoor_temperature" min="1">
-        </div>
-
-        <div>
-            <label for="outdoor_dew_point">Outdoor Dew Point</label>
-            <input type="number" id="outdoor_dew_point" min="1">
-        </div>
-
-        <div>
-            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
-            <input type="number" id="outdoor_relative_humidity" min="1">
-        </div>
-
-        <div>
-            <label for="outdoor_gpk">Outdoor GPK</label>
-            <input type="number" id="outdoor_gpk" min="1">
+            <label for="matters_for_consideration">Matters for Consideration</label>
+            <textarea type="text" id="matters_for_consideration"></textarea>
         </div>
 
         <div id="items"></div>

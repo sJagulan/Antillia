@@ -19,8 +19,33 @@ function fillData(){
         console.log(parsedData)
 
         document.getElementById('job_address').value = parsedData.job_address
+        if(parsedData.outside.length !== 0){
+            const photoDiv = document.querySelector('.selectedPhotos');
+            const photoElement = document.createElement('div');
+
+            // Display the image name
+            const fileNameElement = document.createElement('div');
+            fileNameElement.textContent = `photo`;  // Add the actual file name if available
+            photoElement.appendChild(fileNameElement);
+
+            const img = document.createElement('img');
+            img.src = parsedData.outside;
+            photoElement.appendChild(img);
+
+            // Add a delete button for each photo
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.addEventListener('click', () => {
+                // Handle delete functionality here
+                // For now, let's just remove the image from the DOM
+                photoElement.remove();
+            });
+            photoElement.appendChild(deleteButton);
+
+            photoDiv.appendChild(photoElement);
+        }
         document.getElementById('account').value = parsedData.account
-        fillCheckboxes(parsedData.job_category, 'job_category', document)
+        document.getElementById('job_category').value = parsedData.job_category
         document.getElementById('start_time').value = parsedData.start_time
         document.getElementById('num_resources').value = parsedData.num_resources
         document.getElementById('date_damage').value = parsedData.date_damage
@@ -30,11 +55,13 @@ function fillData(){
         document.getElementById('water_damage_class').value = parsedData.water_damage_class
         document.getElementById('water_damage_category').value = parsedData.water_damage_category
         document.getElementById('outdoor_temperature').value = parsedData.outdoor_temperature
-        document.getElementById('outdoor_dew_point').value = parsedData.outdoor_dew_point
         document.getElementById('outdoor_relative_humidity').value = parsedData.outdoor_relative_humidity
+        document.getElementById('outdoor_dew_point').value = parsedData.outdoor_dew_point
         document.getElementById('outdoor_gpk').value = parsedData.outdoor_gpk
         document.getElementById('next_steps').value = parsedData.next_steps
+        document.getElementById('next_steps_typing').value = parsedData.next_steps_typing
         document.getElementById('other_trades').value = parsedData.other_trades
+        document.getElementById('other_trades_typing').value = parsedData.other_trades_typing
         document.getElementById('matters_for_consideration').value = parsedData.matters_for_consideration
         document.getElementById('accomodation').value = parsedData.accomodation
         document.getElementById('estimated_equipment_pickup').value = parsedData.estimated_equipment_pickup
@@ -47,16 +74,16 @@ function fillData(){
             let divs = roomsDiv.getElementsByTagName('div')
             divs[i].querySelector('.room_name').value = parsedData.rooms[i].room_name
             divs[i].querySelector('.temperature').value = parsedData.rooms[i].temperature
-            divs[i].querySelector('.dew_point').value = parsedData.rooms[i].dew_point
             divs[i].querySelector('.relative_humidity').value = parsedData.rooms[i].relative_humidity
+            divs[i].querySelector('.dew_point').value = parsedData.rooms[i].dew_point
             divs[i].querySelector('.gpk').value = parsedData.rooms[i].gpk
             divs[i].querySelector('.width').value = parsedData.rooms[i].width
             divs[i].querySelector('.length').value = parsedData.rooms[i].length
             divs[i].querySelector('.height').value = parsedData.rooms[i].height
             divs[i].querySelector('.room_dmg_percent').value = parsedData.rooms[i].room_dmg_percent
             fillCheckboxes(parsedData.rooms[i].flooring_type, 'flooring_type', divs[i])
-            fillCheckboxes(parsedData.rooms[i].carpet_type, 'carpet_type', divs[i])
-            fillCheckboxes(parsedData.rooms[i].underlay_colour, 'underlay_colour', divs[i])
+            divs[i].querySelector('.carpet_type').value = parsedData.rooms[i].carpet_type
+            divs[i].querySelector('.underlay_type').value = parsedData.rooms[i].underlay_type
             divs[i].querySelector('.is_floor_restorable').value = parsedData.rooms[i].is_floor_restorable
             divs[i].querySelector('.quantity_removed_floor').value = parsedData.rooms[i].quantity_removed_floor
             fillCheckboxes(parsedData.rooms[i].findings, 'findings', divs[i])
@@ -102,8 +129,9 @@ window.onload = fillData()
 async function getData(){
     let data = {
         "job_address": document.getElementById('job_address').value,
+        "outside": await processPhotos(document.querySelector('.photocollection-form')),
         "account": document.getElementById('account').value,
-        "job_category": getCheckboxes('job_category', document),
+        "job_category": document.getElementById('job_category').value,
         "start_time": document.getElementById('start_time').value,
         "num_resources": document.getElementById('num_resources').value,
         "date_damage": document.getElementById('date_damage').value,
@@ -113,12 +141,14 @@ async function getData(){
         "water_damage_class": document.getElementById('water_damage_class').value,
         "water_damage_category": document.getElementById('water_damage_category').value,
         "outdoor_temperature": document.getElementById('outdoor_temperature').value,
-        "outdoor_dew_point": document.getElementById('outdoor_dew_point').value,
         "outdoor_relative_humidity": document.getElementById('outdoor_relative_humidity').value,
+        "outdoor_dew_point": document.getElementById('outdoor_dew_point').value,
         "outdoor_gpk": document.getElementById('outdoor_gpk').value,
         "rooms": await getDataRooms(),
         "next_steps": document.getElementById('next_steps').value,
+        "next_steps_typing": document.getElementById('next_steps_typing').value,
         "other_trades": document.getElementById('other_trades').value,
+        "other_trades_typing": document.getElementById('other_trades_typing').value,
         "matters_for_consideration": document.getElementById('matters_for_consideration').value,
         "accomodation": document.getElementById('accomodation').value,
         "estimated_equipment_pickup": document.getElementById('estimated_equipment_pickup').value,
@@ -134,16 +164,16 @@ async function getDataRooms(){
         let room = {
             "room_name": roomElement.querySelector('.room_name').value,
             "temperature": roomElement.querySelector('.temperature').value,
-            "dew_point": roomElement.querySelector('.dew_point').value,
             "relative_humidity": roomElement.querySelector('.relative_humidity').value,
+            "dew_point": roomElement.querySelector('.dew_point').value,
             "gpk": roomElement.querySelector('.gpk').value,
             "width": roomElement.querySelector('.width').value,
             "length": roomElement.querySelector('.length').value,
             "height": roomElement.querySelector('.height').value,
             "room_dmg_percent": roomElement.querySelector('.room_dmg_percent').value,
             "flooring_type": getCheckboxes('flooring_type', roomElement),
-            "carpet_type": getCheckboxes('carpet_type', roomElement),
-            "underlay_colour": getCheckboxes('underlay_colour', roomElement),
+            "carpet_type": roomElement.querySelector('.carpet_type').value,
+            "underlay_type": roomElement.querySelector('.underlay_type').value,
             "is_floor_restorable": roomElement.querySelector('.is_floor_restorable').value,
             "quantity_removed_floor": roomElement.querySelector('.quantity_removed_floor').value,
             "findings": getCheckboxes('findings', roomElement),
@@ -151,7 +181,7 @@ async function getDataRooms(){
             "actions": getCheckboxes('actions', roomElement),
             "supporting_actions": roomElement.querySelector('.supporting_actions').value,
             "equipment": getCheckboxesAndText('equipment', roomElement),
-            "photos": await processPhotos(roomElement.querySelector('.photoroom')),
+            "photos": await processPhotos(roomElement.querySelector('.photocollection')),
         }
         return room
     }))
@@ -165,7 +195,30 @@ function generateRoom(){
     <br>
     <div>
         <label for="room_name">Room Name</label>
-        <input type="text" class="room_name">
+        <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
+
+        <div class="dropdown">
+
+        </div>
+
+        <datalist id="room_name">
+            <option value="Master Bedroom"></option>
+            <option value="Master Bedroom WIR"></option>
+            <option value="Master Bedroom En-suite"></option>
+            <option value="Bedroom 1"></option>
+            <option value="Bedroom 2"></option>
+            <option value="Bedroom 3"></option>
+            <option value="Bathroom"></option>
+            <option value="Hallway"></option>
+            <option value="Laundry"></option>
+            <option value="Living Room"></option>
+            <option value="Dining Room"></option>
+            <option value="Study"></option>
+            <option value="Open Plan Kitchen/Living"></option>
+            <option value="Kitchen"></option>
+            <option value="Garage"></option>
+        </datalist>
+
     </div>
 
     <div>
@@ -174,13 +227,13 @@ function generateRoom(){
     </div>
 
     <div>
-        <label for="dew_point">Dew Point</label>
-        <input type="number" class="dew_point" min="1">
+        <label for="relative_humidity">Relative Humidity</label>
+        <input type="number" class="relative_humidity" min="1">
     </div>
 
     <div>
-        <label for="relative_humidity">Relative Humidity</label>
-        <input type="number" class="relative_humidity" min="1">
+        <label for="dew_point">Dew Point</label>
+        <input type="number" class="dew_point" min="1">
     </div>
 
     <div>
@@ -204,13 +257,13 @@ function generateRoom(){
     </div>
 
     <div>
-        <label for="room_dmg_percent">Room Damage %</label>
+        <label for="room_dmg_percent">Room Damage (%)</label>
         <input type="text" class="room_dmg_percent">
     </div>
 
     <div class="checkbox-group">
         <label for="flooring_type">Flooring Type</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
+        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
             <label for="Carpet">Carpet</label>
@@ -257,85 +310,51 @@ function generateRoom(){
         </div>
     </div>
 
-    <div class="checkbox-group">
-        <label for="carpet_type">If Carpet, Carpet Type</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
-        <br>
-        <div class="collapsable-content">
-            <label for="Wool">Wool</label>
-            <input type="checkbox" class="carpet_type" value="Wool">
-
-            <label for="Nylon">Nylon</label>
-            <input type="checkbox" class="carpet_type" value="Nylon">
-
-            <label for="Polypropylene">Polypropylene</label>
-            <input type="checkbox" class="carpet_type" value="Polypropylene">
-
-            <label for="Polyester">Polyester</label>
-            <input type="checkbox" class="carpet_type" value="Polyester">
-
-            <label for="Olefin">Olefin</label>
-            <input type="checkbox" class="carpet_type" value="Olefin">
-
-            <label for="Acrylic">Acrylic</label>
-            <input type="checkbox" class="carpet_type" value="Acrylic">
-
-            <label for="Carpet Tiles">Carpet Tiles</label>
-            <input type="checkbox" class="carpet_type" value="Carpet Tiles">
-
-            <label for="Axminister">Axminister</label>
-            <input type="checkbox" class="carpet_type" value="Axminister">
-
-            <label for="Other - Refer to findings">Other - Refer to findings</label>
-            <input type="checkbox" class="carpet_type" value="Other - Refer to findings">
-        </div>
-    </div>
-
-    <div class="checkbox-group">
-        <label for="underlay_colour">Colour of Underlay</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
-        <br>
-        <div class="collapsable-content">
-            <label for="Carpet not lifted - underlay not seen">Carpet not lifted - underlay not seen</label>
-            <input type="checkbox" class="underlay_colour" value="Carpet not lifted - underlay not seen">
-
-            <label for="Rubber - Fire rated">Rubber - Fire rated</label>
-            <input type="checkbox" class="underlay_colour" value="Rubber - Fire rated">
-
-            <label for="Rubber - Not Fire Rated">Rubber - Not Fire Rated</label>
-            <input type="checkbox" class="underlay_colour" value="Rubber - Not Fire Rated">
-
-            <label for="Foam">Foam</label>
-            <input type="checkbox" class="underlay_colour" value="Foam">
-
-            <label for="Felt">Felt</label>
-            <input type="checkbox" class="underlay_colour" value="Felt">
-
-            <label for="No underlay">No underlay</label>
-            <input type="checkbox" class="underlay_colour" value="No underlay">
-
-            <label for="Other">Other:</label>
-            <input type="checkbox" class="underlay_colour" value="Other">
-        </div>
-    </div>
-    
     <div>
-        <label for="is_floor_restorable">Is Flooring Restorable</label>
-        <select class="is_floor_restorable">
-            <option value="Not Applicable">Not Applicable</option>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
+        <label for="carpet_type">If Carpet, Carpet Type</label>
+        <select class="carpet_type">
+            <option value="Wool">Wool</option>
+            <option value="Nylon">Nylon</option>
+            <option value="Polypropylene">Polypropylene</option>
+            <option value="Polyester">Polyester</option>
+            <option value="Olefin">Olefin</option>
+            <option value="Acrylic">Acrylic</option>
+            <option value="Carpet Tiles">Carpet Tiles</option>
+            <option value="Axminister">Axminister</option>
+            <option value="Other - Refer to findings">Other - Refer to findings</option>
         </select>
     </div>
 
     <div>
-        <label for="quantity_removed_floor">Quantity of Flooring Removed (meters squared)</label>
+        <label for="underlay_type">Type of Underlay</label>
+        <select class="underlay_type">
+            <option value="Carpet not lifted - underlay not seen">Carpet not lifted - underlay not seen</option>
+            <option value="Rubber - Fire rated">Rubber - Fire rated</option>
+            <option value="Rubber - Not Fire Rated">Rubber - Not Fire Rated</option>
+            <option value="Foam">Foam</option>
+            <option value="Felt">Felt</option>
+            <option value="No underlay">No underlay</option>
+            <option value="Other">Other</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="is_floor_restorable">Is Flooring Restorable</label>
+        <select class="is_floor_restorable">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+            <option value="Not Applicable">Not Applicable</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="quantity_removed_floor">Quantity of Flooring Removed (%)</label>
         <input type="text" class="quantity_removed_floor">
     </div>
 
     <div class="checkbox-group">
         <label for="findings">Findings</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
+        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
             <label for="Elevated humidity detected in the air">Elevated humidity detected in the air</label>
@@ -428,7 +447,7 @@ function generateRoom(){
 
     <div class="checkbox-group">
         <label for="actions">Actions</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
+        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
             <label for="Completed assessment">Completed assessment</label>
@@ -506,7 +525,7 @@ function generateRoom(){
 
     <div class="checkbox-group">
         <label for="equipment">Equipment</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Hide</button>
+        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
             <label for="AFD's">AFD's</label>
@@ -546,7 +565,7 @@ function generateRoom(){
         </div>
     </div>
 
-    <div class="photoroom">
+    <div class="photocollection">
         <label for="photos">Photos</label>
         <input type="file" accept="image/jpg, image/jpeg" class="photos" multiple>
         <div class="selectedPhotos"></div>
@@ -623,7 +642,6 @@ function fillCheckboxesAndText(items, checkbox_parent, doc) {
     }
 }
 
-
 async function processPhotos(photosDiv) {
     return new Promise((resolve, reject) => {
         const existingImages = photosDiv.querySelectorAll('.selectedPhotos img');
@@ -673,7 +691,6 @@ async function processPhotos(photosDiv) {
     });
 }
 
-
 function processEmail() {
     const messageContainer = document.createElement('div');
     messageContainer.textContent = "Sending email please wait"
@@ -681,25 +698,35 @@ function processEmail() {
 
     getData().then((data) => {
         // Create an array of Promises for generating zip files
-        let zipPromises = data.rooms.map((room) => {
-            const zip = new JSZip();
+        
+        const zipPromises = [];
 
-            // Add images to the zip file
+        // Generate promises for zip files for each room
+        data.rooms.forEach((room) => {
+            const zip = new JSZip();
             room.photos.forEach((imageData, j) => {
                 zip.file(`image${j + 1}.jpg`, imageData.split(",")[1], { base64: true });
             });
 
             // Generate the zip content and push the promise to the array
-            return zip.generateAsync({ type: "base64" });
+            zipPromises.push(zip.generateAsync({ type: "base64" }));
         });
+
+        // Add outside.jpg to the zip
+        if(data.outside.length !== 0){
+            const zip = new JSZip();
+            zip.file(`outside.jpg`, data.outside[0].split(",")[1], { base64: true });
+            zipPromises.push(zip.generateAsync({ type: "base64" }));
+        }
 
         // Wait for all zip files to be generated
         Promise.all(zipPromises)
             .then(zipContents => {
                 // Attachments array for Email.send
                 let attachments = zipContents.map((zipBase64, i) => {
+                    const roomName = data.rooms[i] ? data.rooms[i].room_name : "outside";
                     return {
-                        name: `${data.rooms[i].room_name}.zip`, // Assuming you want the zip file named after the room_name
+                        name: `${roomName}.zip`, // Assuming you want the zip file named after the room_name
                         data: zipBase64,
                         encoding: "base64"
                     };
@@ -726,13 +753,15 @@ Client Discussion: ${data.client_discussion}<br>
 Water Damage Class: ${data.water_damage_class}<br>
 Water Damage Category: ${data.water_damage_category}<br>
 Outdoor Temperature: ${data.outdoor_temperature}<br>
-Outdoor Dew Point: ${data.outdoor_dew_point}<br>
 Outdoor Relative Humidity: ${data.outdoor_relative_humidity}<br>
+Outdoor Dew Point: ${data.outdoor_dew_point}<br>
 Outdoor GPK: ${data.outdoor_gpk}<br>
 -----------------------------------------------------------------------------------------<br>
 ${generateRoomText(data.rooms)}
 Next Steps: ${data.next_steps}<br>
+Next Steps Comments: ${data.next_steps_typing}<br>
 Other Trades: ${data.other_trades}<br>
+Other Trades Comments: ${data.other_trades_typing}<br>
 Matters for Consideration: ${data.matters_for_consideration}<br>
 Accomodation: ${data.accomodation}<br>
 Estimated Equipment Pickup: ${data.estimated_equipment_pickup}<br>
@@ -767,8 +796,8 @@ function generateRoomText(data){
         text += `
 Room Name: ${data[i].room_name}<br>
 Temperature: ${data[i].temperature}<br>
-Dew Point: ${data[i].dew_point}<br>
 Relative Humidity: ${data[i].relative_humidity}<br>
+Dew Point: ${data[i].dew_point}<br>
 GPK: ${data[i].gpk}<br>
 Width: ${data[i].width}<br>
 Length: ${data[i].length}<br>
@@ -776,7 +805,7 @@ Height: ${data[i].height}<br>
 Room Damage Percent: ${data[i].room_dmg_percent}<br>
 Flooring Type: ${data[i].flooring_type}<br>
 Carpet Type: ${data[i].carpet_type}<br>
-Colour of Underlay: ${data[i].underlay_colour}<br>
+Type of Underlay: ${data[i].underlay_type}<br>
 Is Flooring Restorable: ${data[i].is_floor_restorable}<br>
 Quantity of Flooring Removed: ${data[i].quantity_removed_floor}<br>
 Findings: ${data[i].findings}<br>
@@ -790,11 +819,10 @@ Equipment: ${data[i].equipment}<br>
     return text
 }
 
-
 function handleFileSelect(event, newWidth = 800, newHeight = 640) {
     const fileInput = event.target;
-    const roomDiv = fileInput.closest('.photoroom');
-    const photoContainer = roomDiv.querySelector('.selectedPhotos');
+    const photoDiv = fileInput.closest('.photocollection') || fileInput.closest('.photocollection-form');
+    const photoContainer = photoDiv.querySelector('.selectedPhotos');
 
     // Display selected photos for the specific room
     for (const file of fileInput.files) {

@@ -77,7 +77,7 @@ button:hover {
 }
 
 .collapsable-content {
-    display: block
+    display: none
 }
 
 .dropdown-button {

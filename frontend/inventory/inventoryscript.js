@@ -20,19 +20,14 @@ function fillData(){
 
         document.getElementById('job_address').value = parsedData.job_address
         document.getElementById('account').value = parsedData.account
-        fillCheckboxes(parsedData.job_category, 'job_category', document)
+        document.getElementById('job_category').value = parsedData.job_category
         document.getElementById('start_time').value = parsedData.start_time
         document.getElementById('num_resources').value = parsedData.num_resources
         document.getElementById('date_damage').value = parsedData.date_damage
         document.getElementById('cause_dmg').value = parsedData.cause_dmg
         document.getElementById('attendence_num').value = parsedData.attendence_num
         document.getElementById('client_discussion').value = parsedData.client_discussion
-        document.getElementById('water_damage_class').value = parsedData.water_damage_class
-        document.getElementById('water_damage_category').value = parsedData.water_damage_category
-        document.getElementById('outdoor_temperature').value = parsedData.outdoor_temperature
-        document.getElementById('outdoor_dew_point').value = parsedData.outdoor_dew_point
-        document.getElementById('outdoor_relative_humidity').value = parsedData.outdoor_relative_humidity
-        document.getElementById('outdoor_gpk').value = parsedData.outdoor_gpk
+        document.getElementById('matters_for_consideration').value = parsedData.matters_for_consideration
         document.getElementById('end_time').value = parsedData.end_time
 
         let itemsDiv = document.getElementById('items')
@@ -89,19 +84,14 @@ async function getData(){
     let data = {
         "job_address": document.getElementById('job_address').value,
         "account": document.getElementById('account').value,
-        "job_category": getCheckboxes('job_category', document),
+        "job_category": document.getElementById('job_category').value,
         "start_time": document.getElementById('start_time').value,
         "num_resources": document.getElementById('num_resources').value,
         "date_damage": document.getElementById('date_damage').value,
         "cause_dmg": document.getElementById('cause_dmg').value,
         "attendence_num": document.getElementById('attendence_num').value,
         "client_discussion": document.getElementById('client_discussion').value,
-        "water_damage_class": document.getElementById('water_damage_class').value,
-        "water_damage_category": document.getElementById('water_damage_category').value,
-        "outdoor_temperature": document.getElementById('outdoor_temperature').value,
-        "outdoor_dew_point": document.getElementById('outdoor_dew_point').value,
-        "outdoor_relative_humidity": document.getElementById('outdoor_relative_humidity').value,
-        "outdoor_gpk": document.getElementById('outdoor_gpk').value,
+        "matters_for_consideration": document.getElementById('matters_for_consideration').value,
         "items": await getDataItems(),
         "end_time": document.getElementById('end_time').value,
     }
@@ -141,8 +131,31 @@ function generateItem(){
     </div>
 
     <div>
-        <label for="room_name">Room/Area Name</label>
-        <input type="text" class="room_name">
+        <label for="room_name">Room Name</label>
+        <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
+
+        <div class="dropdown">
+
+        </div>
+
+        <datalist id="room_name">
+            <option value="Master Bedroom"></option>
+            <option value="Master Bedroom WIR"></option>
+            <option value="Master Bedroom En-suite"></option>
+            <option value="Bedroom 1"></option>
+            <option value="Bedroom 2"></option>
+            <option value="Bedroom 3"></option>
+            <option value="Bathroom"></option>
+            <option value="Hallway"></option>
+            <option value="Laundry"></option>
+            <option value="Living Room"></option>
+            <option value="Dining Room"></option>
+            <option value="Study"></option>
+            <option value="Open Plan Kitchen/Living"></option>
+            <option value="Kitchen"></option>
+            <option value="Garage"></option>
+        </datalist>
+
     </div>
 
     <div>
@@ -393,12 +406,7 @@ Date Damage Occurred: ${data.date_damage}<br>
 Cause of Damage: ${data.cause_dmg}<br>
 Attendence Number: ${data.attendence_num}<br>
 Client Discussion: ${data.client_discussion}<br>
-Water Damage Class: ${data.water_damage_class}<br>
-Water Damage Category: ${data.water_damage_category}<br>
-Outdoor Temperature: ${data.outdoor_temperature}<br>
-Outdoor Dew Point: ${data.outdoor_dew_point}<br>
-Outdoor Relative Humidity: ${data.outdoor_relative_humidity}<br>
-Outdoor GPK: ${data.outdoor_gpk}<br>
+Matters for Consideration: ${data.matters_for_consideration}<br>
 -----------------------------------------------------------------------------------------<br>
 ${generateItemText(data.items)}
 End Time: ${data.end_time}<br><br>
