@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antillia Automater</title>
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="scopestyles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script defer src="scopescript.js"></script>
+</head>
+<body>
+    <!--<button onclick=test()>Test</button> -->
+    <div id="form">
+        <h2>Scope of Works</h2>
+        <div>
+            <label for="job_address">Job Address</label>
+            <input type="text" id="job_address">
+        </div>
+
+        <div>
+            <label for="account">Account</label>
+            <input list="account" type="text" id="account" autocomplete="off" onclick=showOptions(this)>
+
+            <div class="dropdown">
+
+            </div>
+
+            <datalist id="account">
+                <option value="ANT Renovations"></option>
+                <option value="Emergency Trade Services"></option>
+                <option value="Johns Lyng Group"></option>
+                <option value="RestorX Major Loss Pty Ltd"></option>
+                <option value="Rizon Commercial"></option>
+                <option value="Total Construction and Maintenance Solutions"></option>
+                <option value="Private"></option>
+            </datalist>
+
+        </div>
+
+        <div>
+            <label for="job_category">Job Category</label>
+            <select id="job_category">
+                <option value="Water Damage Restoration">Water Damage Restoration</option>
+                <option value="Mould Remediation">Mould Remediation</option>
+                <option value="Fire Damage Restoration">Fire Damage Restoration</option>
+                <option value="Commerical Cleaning">Commerical Cleaning</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="matters_for_consideration">Matters for Consideration</label>
+            <textarea type="text" id="matters_for_consideration"></textarea>
+        </div>
+        
+        <div class="checkbox-group">
+            <label for="other_trades_req">Other Trades Required</label>
+            <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
+            <br>
+            <div class="collapsable-content">
+                <label for="Plumber">Plumber</label>
+                <input type="checkbox" class="other_trades_req" value="Plumber">
+
+                <label for="Electrician">Electrician</label>
+                <input type="checkbox" class="other_trades_req" value="Electrician">
+
+                <label for="Carpet Layer">Carpet Layer</label>
+                <input type="checkbox" class="other_trades_req" value="Carpet Layer">
+
+                <label for="If anyone else please comment below">If anyone else please comment below</label>
+                <input type="checkbox" class="other_trades_req" value="If anyone else please comment below">
+    
+            </div>
+        </div>
+
+        <div>
+            <label for="other_trades_req_comments">Comments</label>
+            <textarea type="text" id="other_trades_req_comments"></textarea>
+        </div>
+
+        <div>
+            <label for="num_resources">Number of Resources Required</label>
+            <input type="number" id="num_resources" min="1">
+        </div>
+
+        <div>
+            <label for="labour_hours">Total Labour Hours Required</label>
+            <input type="number" id="labour_hours" min="1">
+        </div>
+
+        <br>
+        <div><h3>Attendence Breakdown</h3></div>
+
+        <div>
+            <label for="attendence_1">Attendance 1: Number of Resources Required and Number of Hours Required</label>
+            <textarea type="text" id="attendence_1"></textarea>
+        </div>
+
+        <div>
+            <label for="attendence_2">Attendance 2: Number of Resources Required and Number of Hours Required</label>
+            <textarea type="text" id="attendence_2"></textarea>
+        </div>
+
+        <div>
+            <label for="attendence_3">Attendance 3: Number of Resources Required and Number of Hours Required</label>
+            <textarea type="text" id="attendence_3"></textarea>
+        </div>
+
+        <div>
+            <label for="attendence_4">Attendance 4: Number of Resources Required and Number of Hours Required</label>
+            <textarea type="text" id="attendence_4"></textarea>
+        </div>
+
+        <div>
+            <label for="est_disposal">Estimated Disposal (m3)</label>
+            <select id="est_disposal">
+                <option value="3">3</option>
+                <option value="6">6</option>
+                <option value="8">8</option>
+                <option value="10">10</option>
+                <option value="12">12</option>
+                <option value="15">15</option>
+            </select>
+        </div>
+
+        <div id="rooms"></div>
+
+        <button onclick=generateRoom()>Add Room</button>
+        <br>
+        <br>
+        
+
+        <button id="saveButton" onclick=saveData()>Save Data</button>
+        <!-- <button onclick=fillData()>Fill Data</button> -->
+        <button onclick=processEmail()>Send Email</button>
+        <br>
+        <br>
+        
+    </div>
+</body>

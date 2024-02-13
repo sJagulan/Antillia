@@ -1,0 +1,102 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e4f9f5;
+    margin: 0;
+    padding: 20px;
+}
+
+div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+textarea {
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="text"],
+select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.checkbox-group {
+    margin-bottom: 15px;
+}
+
+.checkbox-group label {
+    display: block;
+}
+
+.checkbox-group input[type="checkbox"] {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #32aba9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #279192;
+}
+
+#saveButton {
+    position: fixed;
+    top: 2%;
+    right: 2%;
+    z-index: 999;
+}
+
+#form {
+    background-color: #ffffff;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.collapsable-content {
+    display: none
+}
+
+.dropdown-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.checkbox-group {
+    position: relative; /* Add relative positioning to the container */
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-height: 100px;
+    overflow-y: auto;
+    z-index: 999;
+    padding: 5px;
+}
