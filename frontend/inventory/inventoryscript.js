@@ -9,11 +9,11 @@ function generate(){
 
 async function saveData(){
     let data = await getData()
-    localStorage.setItem("userData", JSON.stringify(data))
+    localStorage.setItem("userDataInventory", JSON.stringify(data))
 }
 
 function fillData(){
-    let storedData = localStorage.getItem("userData")
+    let storedData = localStorage.getItem("userDataInventory")
     if(storedData){
         let parsedData = JSON.parse(storedData)
         console.log(parsedData)
@@ -30,11 +30,12 @@ function fillData(){
         document.getElementById('matters_for_consideration').value = parsedData.matters_for_consideration
         document.getElementById('end_time').value = parsedData.end_time
 
-        let itemsDiv = document.getElementById('items')
-        itemsDiv.innerHTML = ""
         for(let i = 0; i < parsedData.items.length; i++){
             generateItem()
-            let divs = itemsDiv.getElementsByTagName('div')
+        }
+        const divs = document.getElementsByClassName('item')
+
+        for(let i = 0; i < parsedData.items.length; i++){
             divs[i].querySelector('.item_name').value = parsedData.items[i].item_name
             divs[i].querySelector('.room_name').value = parsedData.items[i].room_name
             divs[i].querySelector('.inventory_type').value = parsedData.items[i].inventory_type
@@ -122,117 +123,119 @@ async function getDataItems(){
 function generateItem(){
     let div = document.createElement('div')
     div.innerHTML = `
-    <button type="button" onclick="this.parentElement.remove()">Delete Item</button>
-    <br>
-    <br>
-    <div>
-        <label for="item_name">Item Name</label>
-        <input type="text" class="item_name">
-    </div>
+    <div class="item">
+        <button type="button" onclick="this.parentElement.remove()">Delete Item</button>
+        <br>
+        <br>
+        <div>
+            <label for="item_name">Item Name</label>
+            <input type="text" class="item_name">
+        </div>
 
-    <div>
-        <label for="room_name">Room Name</label>
-        <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
+        <div>
+            <label for="room_name">Room Name</label>
+            <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
 
-        <div class="dropdown">
+            <div class="dropdown">
+
+            </div>
+
+            <datalist id="room_name">
+                <option value="Master Bedroom"></option>
+                <option value="WIR"></option>
+                <option value="En-suite"></option>
+                <option value="Bedroom 1"></option>
+                <option value="Bedroom 2"></option>
+                <option value="Bedroom 3"></option>
+                <option value="Bathroom"></option>
+                <option value="Hallway"></option>
+                <option value="Laundry"></option>
+                <option value="Living Room"></option>
+                <option value="Dining Room"></option>
+                <option value="Study"></option>
+                <option value="Open Plan Kitchen/Living"></option>
+                <option value="Kitchen"></option>
+                <option value="Garage"></option>
+            </datalist>
 
         </div>
 
-        <datalist id="room_name">
-            <option value="Master Bedroom"></option>
-            <option value="WIR"></option>
-            <option value="En-suite"></option>
-            <option value="Bedroom 1"></option>
-            <option value="Bedroom 2"></option>
-            <option value="Bedroom 3"></option>
-            <option value="Bathroom"></option>
-            <option value="Hallway"></option>
-            <option value="Laundry"></option>
-            <option value="Living Room"></option>
-            <option value="Dining Room"></option>
-            <option value="Study"></option>
-            <option value="Open Plan Kitchen/Living"></option>
-            <option value="Kitchen"></option>
-            <option value="Garage"></option>
-        </datalist>
+        <div>
+            <label for="inventory_type">Inventory Type</label>
+            <select class="inventory_type">
+                <option value="General">General</option>
+                <option value="Electrical">Electrical</option>
+            </select>
+        </div>
 
-    </div>
+        <div>
+            <label for="item_desc_quan">Item Description & Quantity</label>
+            <input type="text" class="item_desc_quan">
+        </div>
 
-    <div>
-        <label for="inventory_type">Inventory Type</label>
-        <select class="inventory_type">
-            <option value="General">General</option>
-            <option value="Electrical">Electrical</option>
-        </select>
-    </div>
+        <div>
+            <label for="make_model_brand">Make/Model/Brand</label>
+            <input type="text" class="make_model_brand">
+        </div>
 
-    <div>
-        <label for="item_desc_quan">Item Description & Quantity</label>
-        <input type="text" class="item_desc_quan">
-    </div>
+        <div>
+            <label for="serial_num">Serial Number</label>
+            <input type="text" class="serial_num">
+        </div>
 
-    <div>
-        <label for="make_model_brand">Make/Model/Brand</label>
-        <input type="text" class="make_model_brand">
-    </div>
+        <div>
+            <label for="type_damage">Type of Damage</label>
+            <select class="type_damage">
+                <option value="Water damaged">Water damaged</option>
+                <option value="Sewerage damaged">Sewerage damaged</option>
+                <option value="Mould affected">Mould affected</option>
+                <option value="General poor condition">General poor condition</option>
+                <option value="Scratched">Scratched</option>
+                <option value="Thermally damaged">Thermally damaged</option>
+                <option value="Dented">Dented</option>
+                <option value="Parts missing">Parts missing</option>
+                <option value="Impact damage">Impact damage</option>
+                <option value="Corroded">Corroded</option>
+                <option value="Fading">Fading</option>
+                <option value="Not assessed">Not assessed</option>
+                <option value="Unknown">Unknown</option>
+            </select>
+        </div>
 
-    <div>
-        <label for="serial_num">Serial Number</label>
-        <input type="text" class="serial_num">
-    </div>
+        <div>
+            <label for="damage_assessment">Damage Assessment</label>
+            <select class="damage_assessment">
+                <option value="Non-salvageable">Non-salvageable</option>
+                <option value="Requires professional assessment">Requires professional assessment</option>
+                <option value="Pre-existing damage">Pre-existing damage</option>
+                <option value="Not claim related">Not claim related</option>
+                <option value="Restored on site">Restored on site</option>
+                <option value="Not claim related">Not claim related</option>
+                <option value="Not assessed">Not assessed</option>
+                <option value="Not affected">Not affected</option>
+            </select>
+        </div>
 
-    <div>
-        <label for="type_damage">Type of Damage</label>
-        <select class="type_damage">
-            <option value="Water damaged">Water damaged</option>
-            <option value="Sewerage damaged">Sewerage damaged</option>
-            <option value="Mould affected">Mould affected</option>
-            <option value="General poor condition">General poor condition</option>
-            <option value="Scratched">Scratched</option>
-            <option value="Thermally damaged">Thermally damaged</option>
-            <option value="Dented">Dented</option>
-            <option value="Parts missing">Parts missing</option>
-            <option value="Impact damage">Impact damage</option>
-            <option value="Corroded">Corroded</option>
-            <option value="Fading">Fading</option>
-            <option value="Not assessed">Not assessed</option>
-            <option value="Unknown">Unknown</option>
-        </select>
-    </div>
+        <div>
+            <label for="item_location">Item Location</label>
+            <select class="item_location">
+                <option value="Removed from site">Removed from site</option>
+                <option value="On-site">On-site</option>
+                <option value="Removal to be scheduled">Removal to be scheduled</option>
+                <option value="Client removed item from site prior to assessment">Client removed item from site prior to assessment</option>
+            </select>
+        </div>
 
-    <div>
-        <label for="damage_assessment">Damage Assessment</label>
-        <select class="damage_assessment">
-            <option value="Non-salvageable">Non-salvageable</option>
-            <option value="Requires professional assessment">Requires professional assessment</option>
-            <option value="Pre-existing damage">Pre-existing damage</option>
-            <option value="Not claim related">Not claim related</option>
-            <option value="Restored on site">Restored on site</option>
-            <option value="Not claim related">Not claim related</option>
-            <option value="Not assessed">Not assessed</option>
-            <option value="Not affected">Not affected</option>
-        </select>
-    </div>
+        <div>
+            <label for="comments">Damage/Status Comments</label>
+            <textarea type="text" class="comments"></textarea>
+        </div>
 
-    <div>
-        <label for="item_location">Item Location</label>
-        <select class="item_location">
-            <option value="Removed from site">Removed from site</option>
-            <option value="On-site">On-site</option>
-            <option value="Removal to be scheduled">Removal to be scheduled</option>
-            <option value="Client removed item from site prior to assessment">Client removed item from site prior to assessment</option>
-        </select>
-    </div>
-
-    <div>
-        <label for="comments">Damage/Status Comments</label>
-        <textarea type="text" class="comments"></textarea>
-    </div>
-
-    <div class="photoroom">
-        <label for="photos">Photos</label>
-        <input type="file" accept="image/jpg, image/jpeg" class="photos" multiple>
-        <div class="selectedPhotos"></div>
+        <div class="photoroom">
+            <label for="photos">Photos</label>
+            <input type="file" accept="image/jpg, image/jpeg" class="photos" multiple>
+            <div class="selectedPhotos"></div>
+        </div>
     </div>
     `
     document.getElementById('items').appendChild(div)
@@ -417,7 +420,7 @@ End Time: ${data.end_time}<br><br>
                     message => {
                         if(message === 'OK'){
                             messageContainer.textContent = "Email sent successfully!";
-                            localStorage.clear()
+                            localStorage.removeItem("userDataInventory")
 
                             
                         }

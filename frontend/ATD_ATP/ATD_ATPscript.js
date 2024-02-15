@@ -29,12 +29,12 @@ function generate(){
 
 async function saveData(){
     let data = await getData()
-    localStorage.setItem("userData", JSON.stringify(data))
+    localStorage.setItem("userDataATD_ATP", JSON.stringify(data))
 }
 
 function fillData() {
 
-    let storedData = localStorage.getItem("userData");
+    let storedData = localStorage.getItem("userDataATD_ATP");
     if (storedData) {
         let parsedData = JSON.parse(storedData);
         console.log(parsedData);
@@ -198,7 +198,7 @@ Time Stamp: ${data.time_stamp}<br>
             message => {
                 if (message === 'OK') {
                     messageContainer.textContent = "Email sent successfully!";
-                    localStorage.clear();
+                    localStorage.removeItem("userDataATD_ATP");
                 } else {
                     messageContainer.textContent = "Email failed. Try again later."
                 }

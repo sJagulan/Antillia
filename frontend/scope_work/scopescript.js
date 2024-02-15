@@ -9,11 +9,11 @@ function generate(){
 
 async function saveData(){
     let data = await getData()
-    localStorage.setItem("userData", JSON.stringify(data))
+    localStorage.setItem("userDataScope", JSON.stringify(data))
 }
 
 function fillData(){
-    let storedData = localStorage.getItem("userData")
+    let storedData = localStorage.getItem("userDataScope")
     if(storedData){
         let parsedData = JSON.parse(storedData)
         console.log(parsedData)
@@ -34,11 +34,12 @@ function fillData(){
         document.getElementById('num_hours_4').value = parsedData.num_hours_4
         document.getElementById('est_disposal').value = parsedData.est_disposal
 
-        let roomsDiv = document.getElementById('rooms')
-        roomsDiv.innerHTML = ""
         for(let i = 0; i < parsedData.rooms.length; i++){
             generateRoom()
-            let divs = roomsDiv.getElementsByTagName('div')
+        }
+        const divs = document.getElementsByClassName('room')
+
+        for(let i = 0; i < parsedData.rooms.length; i++){
             divs[i].querySelector('.room_name').value = parsedData.rooms[i].room_name
             divs[i].querySelector('.scope_works').value = parsedData.rooms[i].scope_works
             fillCheckboxesAndText(parsedData.rooms[i].materials_req, 'materials_req', divs[i])
@@ -94,237 +95,239 @@ async function getDataRooms(){
 function generateRoom(){
     let div = document.createElement('div')
     div.innerHTML = `
-    <button type="button" onclick="this.parentElement.remove()">Delete Item</button>
-    <br>
-    <br>
-    <div>
-        <label for="room_name">Room Name</label>
-        <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
+    <div class="room">
+        <button type="button" onclick="this.parentElement.remove()">Delete Item</button>
+        <br>
+        <br>
+        <div>
+            <label for="room_name">Room Name</label>
+            <input list="room_name" type="text" class="room_name" autocomplete="off" onclick=showOptions(this)>
 
-        <div class="dropdown">
+            <div class="dropdown">
+
+            </div>
+
+            <datalist id="room_name">
+                <option value="Master Bedroom"></option>
+                <option value="WIR"></option>
+                <option value="En-suite"></option>
+                <option value="Bedroom 1"></option>
+                <option value="Bedroom 2"></option>
+                <option value="Bedroom 3"></option>
+                <option value="Bathroom"></option>
+                <option value="Hallway"></option>
+                <option value="Laundry"></option>
+                <option value="Living Room"></option>
+                <option value="Dining Room"></option>
+                <option value="Study"></option>
+                <option value="Open Plan Kitchen/Living"></option>
+                <option value="Kitchen"></option>
+                <option value="Garage"></option>
+            </datalist>
 
         </div>
 
-        <datalist id="room_name">
-            <option value="Master Bedroom"></option>
-            <option value="WIR"></option>
-            <option value="En-suite"></option>
-            <option value="Bedroom 1"></option>
-            <option value="Bedroom 2"></option>
-            <option value="Bedroom 3"></option>
-            <option value="Bathroom"></option>
-            <option value="Hallway"></option>
-            <option value="Laundry"></option>
-            <option value="Living Room"></option>
-            <option value="Dining Room"></option>
-            <option value="Study"></option>
-            <option value="Open Plan Kitchen/Living"></option>
-            <option value="Kitchen"></option>
-            <option value="Garage"></option>
-        </datalist>
-
-    </div>
-
-    <div>
-        <label for="scope_works">Scope of Works</label>
-        <textarea type="text" class="scope_works"></textarea>
-    </div>
-
-    <div class="checkbox-group">
-        <label for="materials_req">Materials Required</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
-        <br>
-        <div class="collapsable-content">
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Containment Plastic" onchange="toggleInput(this)">
-                <label for="Containment Plastic">Containment Plastic</label>
-            </div>
-            <div class="Containment Plastic-input" style="display: none;">
-                <label for="Containment Plastic-quantity">Quantity:</label>
-                <select class="Containment Plastic-quantity">
-                    <option value="2m">2m</option>
-                    <option value="3m">3m</option>
-                    <option value="4m">4m</option>
-                </select>
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Zip Poles" onchange="toggleInput(this)">
-                <label for="Zip Poles">Zip Poles</label>
-            </div>
-            <div class="Zip Poles-input" style="display: none;">
-                <label for="Zip Poles-quantity">Quantity:</label>
-                <select class="Zip Poles-quantity">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                </select>
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Zippers" onchange="toggleInput(this)">
-                <label for="Zippers">Zippers</label>
-            </div>
-            <div class="Zippers-input" style="display: none;">
-                <label for="Zippers-quantity">Quantity:</label>
-                <input type="number" class="Zippers-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Masking Tape" onchange="toggleInput(this)">
-                <label for="Masking Tape">Masking Tape</label>
-            </div>
-            <div class="Masking Tape-input" style="display: none;">
-                <label for="Masking Tape-quantity">Quantity:</label>
-                <input type="number" class="Masking Tape-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Bonding Tape" onchange="toggleInput(this)">
-                <label for="Bonding Tape">Bonding Tape</label>
-            </div>
-            <div class="Bonding Tape-input" style="display: none;">
-                <label for="Bonding Tape-quantity">Quantity:</label>
-                <input type="number" class="Bonding Tape-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Percide" onchange="toggleInput(this)">
-                <label for="Percide">Percide</label>
-            </div>
-            <div class="Percide-input" style="display: none;">
-                <label for="Percide-quantity">Litres:</label>
-                <input type="number" class="Percide-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Percide boost" onchange="toggleInput(this)">
-                <label for="Percide boost">Percide boost</label>
-            </div>
-            <div class="Percide boost-input" style="display: none;">
-                <label for="Percide boost-quantity">Litres:</label>
-                <input type="number" class="Percide boost-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Anti-microbial solution" onchange="toggleInput(this)">
-                <label for="Anti-microbial solution">Anti-microbial solution</label>
-            </div>
-            <div class="Anti-microbial solution-input" style="display: none;">
-                <label for="Anti-microbial solution-quantity">Litres:</label>
-                <input type="number" class="Anti-microbial solution-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Disposal Bags" onchange="toggleInput(this)">
-                <label for="Disposal Bags">Disposal Bags</label>
-            </div>
-            <div class="Disposal Bags-input" style="display: none;">
-                <label for="Disposal Bags-quantity">Quantity:</label>
-                <input type="number" class="Disposal Bags-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Hard floor protection" onchange="toggleInput(this)">
-                <label for="Hard floor protection">Hard floor protection</label>
-            </div>
-            <div class="Hard floor protection-input" style="display: none;">
-                <label for="Hard floor protection-quantity">Meters:</label>
-                <input type="number" class="Hard floor protection-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Fire Sponges" onchange="toggleInput(this)">
-                <label for="Fire Sponges">Fire Sponges</label>
-            </div>
-            <div class="Fire Sponges-input" style="display: none;">
-                <label for="Fire Sponges-quantity">Quantity:</label>
-                <input type="number" class="Fire Sponges-quantity" min="1">
-            </div>
-
-            <div class="checkbox-pair">
-                <input type="checkbox" class="materials_req" value="Cross Fire" onchange="toggleInput(this)">
-                <label for="Cross Fire">Cross Fire</label>
-            </div>
-            <div class="Cross Fire-input" style="display: none;">
-                <label for="Cross Fire-quantity">Litres:</label>
-                <input type="number" class="Cross Fire-quantity" min="1">
-            </div>
-
+        <div>
+            <label for="scope_works">Scope of Works</label>
+            <textarea type="text" class="scope_works"></textarea>
         </div>
-    </div>
 
-    <div>
-        <label for="materials_comments">Comments (Specify any other required materials)</label>
-        <textarea type="text" class="materials_comments"></textarea>
-    </div>
+        <div class="checkbox-group">
+            <label for="materials_req">Materials Required</label>
+            <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
+            <br>
+            <div class="collapsable-content">
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Containment Plastic" onchange="toggleInput(this)">
+                    <label for="Containment Plastic">Containment Plastic</label>
+                </div>
+                <div class="Containment Plastic-input" style="display: none;">
+                    <label for="Containment Plastic-quantity">Quantity:</label>
+                    <select class="Containment Plastic-quantity">
+                        <option value="2m">2m</option>
+                        <option value="3m">3m</option>
+                        <option value="4m">4m</option>
+                    </select>
+                </div>
 
-    <div class="checkbox-group">
-        <label for="equipment">Equipment</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
-        <br>
-        <div class="collapsable-content">
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Zip Poles" onchange="toggleInput(this)">
+                    <label for="Zip Poles">Zip Poles</label>
+                </div>
+                <div class="Zip Poles-input" style="display: none;">
+                    <label for="Zip Poles-quantity">Quantity:</label>
+                    <select class="Zip Poles-quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
 
-            <div class="checkbox-pair">
-                <input type="checkbox" class="equipment" value="Air Mover" onchange="toggleInput(this)">
-                <label for="Air Mover">Air Mover</label>
-            </div>
-            <div class="Air Mover-input" style="display: none;">
-                <label for="Air Mover-quantity">Quantity:</label>
-                <input type="number" class="Air Mover-quantity" min="1">
-                <label for="Air Mover-days">Number of Days:</label>
-                <input type="number" class="Air Mover-days" min="1">
-            </div>
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Zippers" onchange="toggleInput(this)">
+                    <label for="Zippers">Zippers</label>
+                </div>
+                <div class="Zippers-input" style="display: none;">
+                    <label for="Zippers-quantity">Quantity:</label>
+                    <input type="number" class="Zippers-quantity" min="1">
+                </div>
 
-            <div class="checkbox-pair">
-                <input type="checkbox" class="equipment" value="Dehumidifiers" onchange="toggleInput(this)">
-                <label for="Dehumidifiers">Dehumidifiers</label>
-            </div>
-            <div class="Dehumidifiers-input" style="display: none;">
-                <label for="Dehumidifiers-quantity">Quantity:</label>
-                <input type="number" class="Dehumidifiers-quantity" min="1">
-                <label for="Dehumidifiers-days">Number of Days:</label>
-                <input type="number" class="Dehumidifiers-days" min="1">
-            </div>
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Masking Tape" onchange="toggleInput(this)">
+                    <label for="Masking Tape">Masking Tape</label>
+                </div>
+                <div class="Masking Tape-input" style="display: none;">
+                    <label for="Masking Tape-quantity">Quantity:</label>
+                    <input type="number" class="Masking Tape-quantity" min="1">
+                </div>
 
-            <div class="checkbox-pair">
-                <input type="checkbox" class="equipment" value="AFD's" onchange="toggleInput(this)">
-                <label for="AFD's">AFD's</label>
-            </div>
-            <div class="AFD's-input" style="display: none;">
-                <label for="AFD's-quantity">Quantity:</label>
-                <input type="number" class="AFD's-quantity" min="1">
-                <label for="AFD's-days">Number of Days:</label>
-                <input type="number" class="AFD's-days" min="1">
-            </div>
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Bonding Tape" onchange="toggleInput(this)">
+                    <label for="Bonding Tape">Bonding Tape</label>
+                </div>
+                <div class="Bonding Tape-input" style="display: none;">
+                    <label for="Bonding Tape-quantity">Quantity:</label>
+                    <input type="number" class="Bonding Tape-quantity" min="1">
+                </div>
 
-            <div class="checkbox-pair">
-                <input type="checkbox" class="equipment" value="Axial Drier" onchange="toggleInput(this)">
-                <label for="Axial Drier">Axial Drier</label>
-            </div>
-            <div class="Axial Drier-input" style="display: none;">
-                <label for="Axial Drier-quantity">Quantity:</label>
-                <input type="number" class="Axial Drier-quantity" min="1">
-                <label for="Axial Drier-days">Number of Days:</label>
-                <input type="number" class="Axial Drier-days" min="1">
-            </div>
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Percide" onchange="toggleInput(this)">
+                    <label for="Percide">Percide</label>
+                </div>
+                <div class="Percide-input" style="display: none;">
+                    <label for="Percide-quantity">Litres:</label>
+                    <input type="number" class="Percide-quantity" min="1">
+                </div>
 
-            <div class="checkbox-pair">
-                <input type="checkbox" class="equipment" value="Drying Matt" onchange="toggleInput(this)">
-                <label for="Drying Matt">Drying Matt</label>
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Percide boost" onchange="toggleInput(this)">
+                    <label for="Percide boost">Percide boost</label>
+                </div>
+                <div class="Percide boost-input" style="display: none;">
+                    <label for="Percide boost-quantity">Litres:</label>
+                    <input type="number" class="Percide boost-quantity" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Anti-microbial solution" onchange="toggleInput(this)">
+                    <label for="Anti-microbial solution">Anti-microbial solution</label>
+                </div>
+                <div class="Anti-microbial solution-input" style="display: none;">
+                    <label for="Anti-microbial solution-quantity">Litres:</label>
+                    <input type="number" class="Anti-microbial solution-quantity" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Disposal Bags" onchange="toggleInput(this)">
+                    <label for="Disposal Bags">Disposal Bags</label>
+                </div>
+                <div class="Disposal Bags-input" style="display: none;">
+                    <label for="Disposal Bags-quantity">Quantity:</label>
+                    <input type="number" class="Disposal Bags-quantity" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Hard floor protection" onchange="toggleInput(this)">
+                    <label for="Hard floor protection">Hard floor protection</label>
+                </div>
+                <div class="Hard floor protection-input" style="display: none;">
+                    <label for="Hard floor protection-quantity">Meters:</label>
+                    <input type="number" class="Hard floor protection-quantity" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Fire Sponges" onchange="toggleInput(this)">
+                    <label for="Fire Sponges">Fire Sponges</label>
+                </div>
+                <div class="Fire Sponges-input" style="display: none;">
+                    <label for="Fire Sponges-quantity">Quantity:</label>
+                    <input type="number" class="Fire Sponges-quantity" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="materials_req" value="Cross Fire" onchange="toggleInput(this)">
+                    <label for="Cross Fire">Cross Fire</label>
+                </div>
+                <div class="Cross Fire-input" style="display: none;">
+                    <label for="Cross Fire-quantity">Litres:</label>
+                    <input type="number" class="Cross Fire-quantity" min="1">
+                </div>
+
             </div>
-            <div class="Drying Matt-input" style="display: none;">
-                <label for="Drying Matt-quantity">Quantity:</label>
-                <input type="number" class="Drying Matt-quantity" min="1">
-                <label for="Drying Matt-days">Number of Days:</label>
-                <input type="number" class="Drying Matt-days" min="1">
+        </div>
+
+        <div>
+            <label for="materials_comments">Comments (Specify any other required materials)</label>
+            <textarea type="text" class="materials_comments"></textarea>
+        </div>
+
+        <div class="checkbox-group">
+            <label for="equipment">Equipment</label>
+            <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
+            <br>
+            <div class="collapsable-content">
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="equipment" value="Air Mover" onchange="toggleInput(this)">
+                    <label for="Air Mover">Air Mover</label>
+                </div>
+                <div class="Air Mover-input" style="display: none;">
+                    <label for="Air Mover-quantity">Quantity:</label>
+                    <input type="number" class="Air Mover-quantity" min="1">
+                    <label for="Air Mover-days">Number of Days:</label>
+                    <input type="number" class="Air Mover-days" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="equipment" value="Dehumidifiers" onchange="toggleInput(this)">
+                    <label for="Dehumidifiers">Dehumidifiers</label>
+                </div>
+                <div class="Dehumidifiers-input" style="display: none;">
+                    <label for="Dehumidifiers-quantity">Quantity:</label>
+                    <input type="number" class="Dehumidifiers-quantity" min="1">
+                    <label for="Dehumidifiers-days">Number of Days:</label>
+                    <input type="number" class="Dehumidifiers-days" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="equipment" value="AFD's" onchange="toggleInput(this)">
+                    <label for="AFD's">AFD's</label>
+                </div>
+                <div class="AFD's-input" style="display: none;">
+                    <label for="AFD's-quantity">Quantity:</label>
+                    <input type="number" class="AFD's-quantity" min="1">
+                    <label for="AFD's-days">Number of Days:</label>
+                    <input type="number" class="AFD's-days" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="equipment" value="Axial Drier" onchange="toggleInput(this)">
+                    <label for="Axial Drier">Axial Drier</label>
+                </div>
+                <div class="Axial Drier-input" style="display: none;">
+                    <label for="Axial Drier-quantity">Quantity:</label>
+                    <input type="number" class="Axial Drier-quantity" min="1">
+                    <label for="Axial Drier-days">Number of Days:</label>
+                    <input type="number" class="Axial Drier-days" min="1">
+                </div>
+
+                <div class="checkbox-pair">
+                    <input type="checkbox" class="equipment" value="Drying Matt" onchange="toggleInput(this)">
+                    <label for="Drying Matt">Drying Matt</label>
+                </div>
+                <div class="Drying Matt-input" style="display: none;">
+                    <label for="Drying Matt-quantity">Quantity:</label>
+                    <input type="number" class="Drying Matt-quantity" min="1">
+                    <label for="Drying Matt-days">Number of Days:</label>
+                    <input type="number" class="Drying Matt-days" min="1">
+                </div>
             </div>
         </div>
     </div>
@@ -533,7 +536,7 @@ ${generateRoomText(data.rooms)}
             message => {
                 if(message === 'OK'){
                     messageContainer.textContent = "Email sent successfully!";
-                    localStorage.clear()
+                    localStorage.removeItem("userDataScope")
 
                     
                 }
