@@ -20,7 +20,7 @@
         </div>
 
         <div class="photocollection-form">
-            <label for="outside">Outside</label>
+            <label for="outside">Front Elevation Image</label>
             <input type="file" accept="image/jpg, image/jpeg" class="photos">
             <div class="selectedPhotos"></div>
         </div>
@@ -46,16 +46,6 @@
         </div>
 
         <div>
-            <label for="job_category">Job Category</label>
-            <select id="job_category">
-                <option value="Water Damage Restoration">Water Damage Restoration</option>
-                <option value="Mould Remediation">Mould Remediation</option>
-                <option value="Fire Damage Restoration">Fire Damage Restoration</option>
-                <option value="Commerical Cleaning">Commerical Cleaning</option>
-            </select>
-        </div>
-
-        <div>
             <label for="start_time">Start Time</label>
             <input type="datetime-local" id="start_time">
         </div>
@@ -66,17 +56,7 @@
         </div>
 
         <div>
-            <label for="date_damage">Date Damage Occurred</label>
-            <input type="date" id="date_damage">
-        </div>
-
-        <div>
-            <label for="cause_dmg">Cause of Damage</label>
-            <input type="text" id="cause_dmg">
-        </div>
-
-        <div>
-            <label for="attendence_num">Attendence Number</label>
+            <label for="attendence_num">Attendance Number</label>
             <input type="number" id="attendence_num" min="1">
         </div>
 
@@ -86,68 +66,67 @@
         </div>
 
         <div>
-            <label for="water_damage_class">Water Damage Class</label>
-            <select id="water_damage_class">
-                <option value="Not Applicable">Not Applicable</option>
-                <option value="Class 1- Least amount of water absorption and evaporation load">Class 1- Least amount of water absorption and evaporation load</option>
-                <option value="Class 2 - Significant amount of water absorption and evaporation load">Class 2 - Significant amount of water absorption and evaporation load</option>
-                <option value="Class 3 - Greatest amount of water absorption and evaporation load">Class 3 - Greatest amount of water absorption and evaporation load</option>
-                <option value="Class 4 - Deeply held or bound water">Class 4 - Deeply held or bound water</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="water_damage_category">Water Damage Category</label>
-            <select id="water_damage_category">
-                <option value="Not Applicable">Not Applicable</option>
-                <option value="Category 1 - Clean Water">Category 1 - Clean Water</option>
-                <option value="Category 2 - Grey Water">Category 2 - Grey Water</option>
-                <option value="Category 3 - Black Water">Category 3 - Black Water</option>
-            </select>
-        </div>
-
-        <div>
-            <label for="outdoor_temperature">Outdoor Temperature</label>
+            <label for="outdoor_temperature">Outdoor Temperature (°C)</label>
             <input type="number" id="outdoor_temperature" min="1">
         </div>
 
         <div>
-            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
+            <label for="outdoor_relative_humidity">Outdoor Relative Humidity (%)</label>
             <input type="number" id="outdoor_relative_humidity" min="1">
         </div>
 
         <div>
-            <label for="outdoor_dew_point">Outdoor Dew Point</label>
+            <label for="outdoor_dew_point">Outdoor Dew Point (°C)</label>
             <input type="number" id="outdoor_dew_point" min="1">
         </div>
 
         <div>
-            <label for="outdoor_gpk">Outdoor GPK</label>
+            <label for="outdoor_gpk">Outdoor GPK (g/kg)</label>
             <input type="number" id="outdoor_gpk" min="1">
         </div>
 
         <div id="rooms"></div>
-
         <button onclick=generateRoom()>Add Room</button>
         <br>
         <br>
+
+        <div id="existing_rooms"></div>
+        <button onclick=generateExistingRoom()>Add Exisiting Room</button>
+        <br>
+        <br>
+        
         <div>
-            <label for="next_steps">Next Steps (Y/N)</label>
-            <input type="text" id="next_steps">
+            <label for="other_equipment">Other equipment left on site (e.g Bins, RCD's, extension lead)</label>
+            <textarea type="text" id="other_equipment"></textarea>
         </div>
 
         <div>
-            <label for="next_steps_typing">Comments</label>
+            <label for="next_steps">Next Steps</label>
+            <select id="next_steps">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="Unsure">Unsure</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="next_steps_typing">Comments (What work is required from us?)</label>
             <textarea type="text" id="next_steps_typing"></textarea>
         </div>
 
         <div>
-            <label for="other_trades">Other Trades (Y/N)</label>
-            <input type="text" id="other_trades">
+            <label for="other_trades">Other Trades</label>
+            <select id="other_trades">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="Unsure">Unsure</option>
+            </select>
         </div>
 
         <div>
-            <label for="other_trades_typing">Comments</label>
+            <label for="other_trades_typing">Comments (What work is required from other trades?)</label>
             <textarea type="text" id="other_trades_typing"></textarea>
         </div>
 
