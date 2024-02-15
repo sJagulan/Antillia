@@ -100,3 +100,16 @@ button:hover {
     z-index: 999;
     padding: 5px;
 }
+
+#matters_for_consideration {
+    height: 100px; /* Adjust the height as needed */
+}
+
+
+.checkbox-pair {
+    display: flex;
+}
+
+.scope_works {
+    height: 300px;
+}
