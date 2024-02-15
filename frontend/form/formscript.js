@@ -867,7 +867,7 @@ Equipment Total: <br>${sumEquipment(data.rooms)}
                     message => {
                         if(message === 'OK'){
                             messageContainer.textContent = "Email sent successfully!";
-                            localStorage.clear()
+                            localStorage.removeItem("userDataForm1")
 
                             
                         }
