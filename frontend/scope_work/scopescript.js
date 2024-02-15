@@ -103,8 +103,8 @@ function generateRoom(){
 
         <datalist id="room_name">
             <option value="Master Bedroom"></option>
-            <option value="Master Bedroom WIR"></option>
-            <option value="Master Bedroom En-suite"></option>
+            <option value="WIR"></option>
+            <option value="En-suite"></option>
             <option value="Bedroom 1"></option>
             <option value="Bedroom 2"></option>
             <option value="Bedroom 3"></option>

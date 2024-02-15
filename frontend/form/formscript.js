@@ -58,6 +58,7 @@ function fillData(){
         document.getElementById('outdoor_relative_humidity').value = parsedData.outdoor_relative_humidity
         document.getElementById('outdoor_dew_point').value = parsedData.outdoor_dew_point
         document.getElementById('outdoor_gpk').value = parsedData.outdoor_gpk
+        document.getElementById('other_equipment').value = parsedData.other_equipment
         document.getElementById('next_steps').value = parsedData.next_steps
         document.getElementById('next_steps_typing').value = parsedData.next_steps_typing
         document.getElementById('other_trades').value = parsedData.other_trades
@@ -81,7 +82,7 @@ function fillData(){
             divs[i].querySelector('.length').value = parsedData.rooms[i].length
             divs[i].querySelector('.height').value = parsedData.rooms[i].height
             divs[i].querySelector('.room_dmg_percent').value = parsedData.rooms[i].room_dmg_percent
-            fillCheckboxes(parsedData.rooms[i].flooring_type, 'flooring_type', divs[i])
+            divs[i].querySelector('.flooring_type').value = parsedData.rooms[i].flooring_type
             divs[i].querySelector('.carpet_type').value = parsedData.rooms[i].carpet_type
             divs[i].querySelector('.underlay_type').value = parsedData.rooms[i].underlay_type
             divs[i].querySelector('.is_floor_restorable').value = parsedData.rooms[i].is_floor_restorable
@@ -145,6 +146,7 @@ async function getData(){
         "outdoor_dew_point": document.getElementById('outdoor_dew_point').value,
         "outdoor_gpk": document.getElementById('outdoor_gpk').value,
         "rooms": await getDataRooms(),
+        "other_equipment": document.getElementById('other_equipment').value,
         "next_steps": document.getElementById('next_steps').value,
         "next_steps_typing": document.getElementById('next_steps_typing').value,
         "other_trades": document.getElementById('other_trades').value,
@@ -171,7 +173,7 @@ async function getDataRooms(){
             "length": roomElement.querySelector('.length').value,
             "height": roomElement.querySelector('.height').value,
             "room_dmg_percent": roomElement.querySelector('.room_dmg_percent').value,
-            "flooring_type": getCheckboxes('flooring_type', roomElement),
+            "flooring_type": roomElement.querySelector('.flooring_type').value,
             "carpet_type": roomElement.querySelector('.carpet_type').value,
             "underlay_type": roomElement.querySelector('.underlay_type').value,
             "is_floor_restorable": roomElement.querySelector('.is_floor_restorable').value,
@@ -203,8 +205,8 @@ function generateRoom(){
 
         <datalist id="room_name">
             <option value="Master Bedroom"></option>
-            <option value="Master Bedroom WIR"></option>
-            <option value="Master Bedroom En-suite"></option>
+            <option value="WIR"></option>
+            <option value="En-suite"></option>
             <option value="Bedroom 1"></option>
             <option value="Bedroom 2"></option>
             <option value="Bedroom 3"></option>
@@ -222,37 +224,37 @@ function generateRoom(){
     </div>
 
     <div>
-        <label for="temperature">Temperature</label>
+        <label for="temperature">Temperature (°C)</label>
         <input type="number" class="temperature" min="1">
     </div>
 
     <div>
-        <label for="relative_humidity">Relative Humidity</label>
+        <label for="relative_humidity">Relative Humidity (%)</label>
         <input type="number" class="relative_humidity" min="1">
     </div>
 
     <div>
-        <label for="dew_point">Dew Point</label>
+        <label for="dew_point">Dew Point (°C)</label>
         <input type="number" class="dew_point" min="1">
     </div>
 
     <div>
-        <label for="gpk">GPK</label>
+        <label for="gpk">GPK (g/kg)</label>
         <input type="number" class="gpk" min="1">
     </div>
 
     <div>
-        <label for="width">Width</label>
+        <label for="width">Width (meters)</label>
         <input type="number" class="width" min="1">
     </div>
 
     <div>
-        <label for="length">Length</label>
+        <label for="length">Length (meters)</label>
         <input type="number" class="length" min="1">
     </div>
 
     <div>
-        <label for="height">Height</label>
+        <label for="height">Height (meters)</label>
         <input type="number" class="height" min="1">
     </div>
 
@@ -261,53 +263,25 @@ function generateRoom(){
         <input type="text" class="room_dmg_percent">
     </div>
 
-    <div class="checkbox-group">
+    <div>
         <label for="flooring_type">Flooring Type</label>
-        <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
-        <br>
-        <div class="collapsable-content">
-            <label for="Carpet">Carpet</label>
-            <input type="checkbox" class="flooring_type" value="Carpet">
-
-            <label for="Carpet Tiles">Carpet Tiles</label>
-            <input type="checkbox" class="flooring_type" value="Carpet Tiles">
-
-            <label for="Tiles">Tiles</label>
-            <input type="checkbox" class="flooring_type" value="Tiles">
-
-            <label for="Floating boards">Floating boards</label>
-            <input type="checkbox" class="flooring_type" value="Floating boards">
-
-            <label for="Laminated">Laminated</label>
-            <input type="checkbox" class="flooring_type" value="Laminated">
-
-            <label for="Vinyl">Vinyl</label>
-            <input type="checkbox" class="flooring_type" value="Vinyl">
-
-            <label for="Direct Stick Vinyl">Direct Stick Vinyl</label>
-            <input type="checkbox" class="flooring_type" value="Direct Stick Vinyl">
-
-            <label for="Engineered">Engineered</label>
-            <input type="checkbox" class="flooring_type" value="Engineered">
-
-            <label for="Hardwood">Hardwood</label>
-            <input type="checkbox" class="flooring_type" value="Hardwood">
-
-            <label for="Parquetry">Parquetry</label>
-            <input type="checkbox" class="flooring_type" value="Parquetry">
-
-            <label for="Direct Stick Timber">Direct Stick Timber</label>
-            <input type="checkbox" class="flooring_type" value="Direct Stick Timber">
-
-            <label for="Concrete">Concrete</label>
-            <input type="checkbox" class="flooring_type" value="Concrete">
-
-            <label for="Soil">Soil</label>
-            <input type="checkbox" class="flooring_type" value="Soil">
-
-            <label for="Other - See Findings">Other - See Findings</label>
-            <input type="checkbox" class="flooring_type" value="Other - See Findings">
-        </div>
+        <select class="flooring_type">
+            <option value="Carpet">Carpet</option>
+            <option value="Carpet Tiles">Carpet Tiles</option>
+            <option value="Tiles">Tiles</option>
+            <option value="Floating boards">Floating boards</option>
+            <option value="Laminated">Laminated</option>
+            <option value="Vinyl">Vinyl</option>
+            <option value="Direct Stick Vinyl">Direct Stick Vinyl</option>
+            <option value="Engineered">Engineered</option>
+            <option value="Hardwood">Hardwood</option>
+            <option value="Parquetry">Parquetry</option>
+            <option value="Direct Stick Timber">Direct Stick Timber</option>
+            <option value="Concrete">Concrete</option>
+            <option value="Soil">Soil</option>
+            <option value="Other - See Findings">Other - See Findings</option>
+            <option value="No Flooing Covering">No Flooing Covering</option>
+        </select>
     </div>
 
     <div>
@@ -322,6 +296,7 @@ function generateRoom(){
             <option value="Carpet Tiles">Carpet Tiles</option>
             <option value="Axminister">Axminister</option>
             <option value="Other - Refer to findings">Other - Refer to findings</option>
+            <option value="Not Applicable">Not Applicable</option>
         </select>
     </div>
 
@@ -335,6 +310,7 @@ function generateRoom(){
             <option value="Felt">Felt</option>
             <option value="No underlay">No underlay</option>
             <option value="Other">Other</option>
+            <option value="Not Applicable">Not Applicable</option>
         </select>
     </div>
 
@@ -344,6 +320,7 @@ function generateRoom(){
             <option value="Yes">Yes</option>
             <option value="No">No</option>
             <option value="Not Applicable">Not Applicable</option>
+            <option value="Unsure">Unsure</option>
         </select>
     </div>
 
@@ -357,86 +334,140 @@ function generateRoom(){
         <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
-            <label for="Elevated humidity detected in the air">Elevated humidity detected in the air</label>
-            <input type="checkbox" class="findings" value="Elevated humidity detected in the air">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated humidity detected in the air">
+                <label for="Elevated humidity detected in the air">Elevated humidity detected in the air</label>
+            </div>
 
-            <label for="Elevated moisture detected on flooring">Elevated moisture detected on flooring</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected on flooring">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected on flooring">
+                <label for="Elevated moisture detected on flooring">Elevated moisture detected on flooring</label>
+            </div>
 
-            <label for="Elevated moisture detected on sub-floor">Elevated moisture detected on sub-floor</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected on sub-floor">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected on sub-floor">
+                <label for="Elevated moisture detected on sub-floor">Elevated moisture detected on sub-floor</label>
+            </div>
 
-            <label for="Elevated moisture detected on skirting">Elevated moisture detected on skirting</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected on skirting">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected on skirting">
+                <label for="Elevated moisture detected on skirting">Elevated moisture detected on skirting</label>
+            </div>
 
-            <label for="Elevated moisture detected on plaster walls">Elevated moisture detected on plaster walls</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected on plaster walls">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected on plaster walls">
+                <label for="Elevated moisture detected on plaster walls">Elevated moisture detected on plaster walls</label>
+            </div>
 
-            <label for="Elevated moisture detected on ceiling">Elevated moisture detected on ceiling</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected on ceiling">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected on ceiling">
+                <label for="Elevated moisture detected on ceiling">Elevated moisture detected on ceiling</label>
+            </div>
 
-            <label for="Water staining evident on flooring">Water staining evident on flooring</label>
-            <input type="checkbox" class="findings" value="Water staining evident on flooring">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Water staining evident on flooring">
+                <label for="Water staining evident on flooring">Water staining evident on flooring</label>
+            </div>
 
-            <label for="Sewerage overflow affected flooring">Sewerage overflow affected flooring</label>
-            <input type="checkbox" class="findings" value="Sewerage overflow affected flooring">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Sewerage overflow affected flooring">
+                <label for="Sewerage overflow affected flooring">Sewerage overflow affected flooring</label>
+            </div>
 
-            <label for="Flooring has cupped/crowned">Flooring has cupped/crowned</label>
-            <input type="checkbox" class="findings" value="Flooring has cupped/crowned">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Flooring has cupped/crowned">
+                <label for="Flooring has cupped/crowned">Flooring has cupped/crowned</label>
+            </div>
 
-            <label for="Skirting boards have swelled">Skirting boards have swelled</label>
-            <input type="checkbox" class="findings" value="Skirting boards have swelled">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Skirting boards have swelled">
+                <label for="Skirting boards have swelled">Skirting boards have swelled</label>
+            </div>
 
-            <label for="Visible mould detected">Visible mould detected</label>
-            <input type="checkbox" class="findings" value="Visible mould detected">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Visible mould detected">
+                <label for="Visible mould detected">Visible mould detected</label>
+            </div>
 
-            <label for="Visible water staining on the ceiling">Visible water staining on the ceiling</label>
-            <input type="checkbox" class="findings" value="Visible water staining on the ceiling">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Visible water staining on the ceiling">
+                <label for="Visible water staining on the ceiling">Visible water staining on the ceiling</label>
+            </div>
 
-            <label for="Visible water staining on the walls">Visible water staining on the walls</label>
-            <input type="checkbox" class="findings" value="Visible water staining on the walls">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Visible water staining on the walls">
+                <label for="Visible water staining on the walls">Visible water staining on the walls</label>
+            </div>
 
-            <label for="Elevated moisture detected under the house/building">Elevated moisture detected under the house/building</label>
-            <input type="checkbox" class="findings" value="Elevated moisture detected under the house/building">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Elevated moisture detected under the house/building">
+                <label for="Elevated moisture detected under the house/building">Elevated moisture detected under the house/building</label>
+            </div>
 
-            <label for="Water detected under the house/building">Water detected under the house/building</label>
-            <input type="checkbox" class="findings" value="Water detected under the house/building">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Water detected under the house/building">
+                <label for="Water detected under the house/building">Water detected under the house/building</label>
+            </div>
 
-            <label for="Sewerage overflow affected outdoor areas">Sewerage overflow affected outdoor areas</label>
-            <input type="checkbox" class="findings" value="Sewerage overflow affected outdoor areas">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Sewerage overflow affected outdoor areas">
+                <label for="Sewerage overflow affected outdoor areas">Sewerage overflow affected outdoor areas</label>
+            </div>
 
-            <label for="Additional building damages observed">Additional building damages observed</label>
-            <input type="checkbox" class="findings" value="Additional building damages observed">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Additional building damages observed">
+                <label for="Additional building damages observed">Additional building damages observed</label>
+            </div>
 
-            <label for="Contents are affected">Contents are affected</label>
-            <input type="checkbox" class="findings" value="Contents are affected">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Contents are affected">
+                <label for="Contents are affected">Contents are affected</label>
+            </div>
 
-            <label for="Flooring returned dry readings">Flooring returned dry readings</label>
-            <input type="checkbox" class="findings" value="Flooring returned dry readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Flooring returned dry readings">
+                <label for="Flooring returned dry readings">Flooring returned dry readings</label>
+            </div>
 
-            <label for="Sub-floor returned dry readings">Sub-floor returned dry readings</label>
-            <input type="checkbox" class="findings" value="Sub-floor returned dry readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Sub-floor returned dry readings">
+                <label for="Sub-floor returned dry readings">Sub-floor returned dry readings</label>
+            </div>
 
-            <label for="Plaster walls returned dry readings">Plaster walls returned dry readings</label>
-            <input type="checkbox" class="findings" value="Plaster walls returned dry readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Plaster walls returned dry readings">
+                <label for="Plaster walls returned dry readings">Plaster walls returned dry readings</label>
+            </div>
 
-            <label for="Skirting boards returned dry readings">Skirting boards returned dry readings</label>
-            <input type="checkbox" class="findings" value="Skirting boards returned dry readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Skirting boards returned dry readings">
+                <label for="Skirting boards returned dry readings">Skirting boards returned dry readings</label>
+            </div>
 
-            <label for="Ceiling returned dry readings">Ceiling returned dry readings</label>
-            <input type="checkbox" class="findings" value="Ceiling returned dry readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="Ceiling returned dry readings">
+                <label for="Ceiling returned dry readings">Ceiling returned dry readings</label>
+            </div>
 
-            <label for="All moisture readings are within acceptable parameters">All moisture readings are within acceptable parameters</label>
-            <input type="checkbox" class="findings" value="All moisture readings are within acceptable parameters">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="All moisture readings are within acceptable parameters">
+                <label for="All moisture readings are within acceptable parameters">All moisture readings are within acceptable parameters</label>
+            </div>
 
-            <label for="No damages found">No damages found</label>
-            <input type="checkbox" class="findings" value="No damages found">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="No damages found">
+                <label for="No damages found">No damages found</label>
+            </div>
 
-            <label for="All work completed on a previous attendance">All work completed on a previous attendance</label>
-            <input type="checkbox" class="findings" value="All work completed on a previous attendance">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="All work completed on a previous attendance">
+                <label for="All work completed on a previous attendance">All work completed on a previous attendance</label>
+            </div>
 
-            <label for="No assessment required on this attendance">No assessment required on this attendance</label>
-            <input type="checkbox" class="findings" value="No assessment required on this attendance">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="findings" value="No assessment required on this attendance">
+                <label for="No assessment required on this attendance">No assessment required on this attendance</label>
+            </div>
         </div>
     </div>
 
@@ -450,71 +481,116 @@ function generateRoom(){
         <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
-            <label for="Completed assessment">Completed assessment</label>
-            <input type="checkbox" class="actions" value="Completed assessment">
 
-            <label for="Undertook moisture readings">Undertook moisture readings</label>
-            <input type="checkbox" class="actions" value="Undertook moisture readings">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Completed assessment">
+                <label for="Completed assessment">Completed assessment</label>
+            </div>
 
-            <label for="Obtained thermal images">Obtained thermal images</label>
-            <input type="checkbox" class="actions" value="Obtained thermal images">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Undertook moisture readings">
+                <label for="Undertook moisture readings">Undertook moisture readings</label>
+            </div>
 
-            <label for="Moved furniture/contents">Moved furniture/contents</label>
-            <input type="checkbox" class="actions" value="Moved furniture/contents">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Obtained thermal images">
+                <label for="Obtained thermal images">Obtained thermal images</label>
+            </div>
 
-            <label for="Extracted water">Extracted water</label>
-            <input type="checkbox" class="actions" value="Extracted water">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Moved furniture/contents">
+                <label for="Moved furniture/contents">Moved furniture/contents</label>
+            </div>
 
-            <label for="Installed equipment">Installed equipment</label>
-            <input type="checkbox" class="actions" value="Installed equipment">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Extracted water">
+                <label for="Extracted water">Extracted water</label>
+            </div>
 
-            <label for="Removed and disposed of non-salvageable carpet">Removed and disposed of non-salvageable carpet</label>
-            <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable carpet">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Installed equipment">
+                <label for="Installed equipment">Installed equipment</label>
+            </div>
 
-            <label for="Removed and disposed of non-salvageable underlay">Removed and disposed of non-salvageable underlay</label>
-            <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable underlay">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable carpet">
+                <label for="Removed and disposed of non-salvageable carpet">Removed and disposed of non-salvageable carpet</label>
+            </div>
 
-            <label for="Removed and disposed of non-salvageable flooring">Removed and disposed of non-salvageable flooring</label>
-            <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable flooring">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable underlay">
+                <label for="Removed and disposed of non-salvageable underlay">Removed and disposed of non-salvageable underlay</label>
+            </div>
 
-            <label for="Removed and disposed of smooth edge">Removed and disposed of smooth edge</label>
-            <input type="checkbox" class="actions" value="Removed and disposed of smooth edge">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable flooring">
+                <label for="Removed and disposed of non-salvageable flooring">Removed and disposed of non-salvageable flooring</label>
+            </div>
 
-            <label for="Cut, removed and disposed of affected plaster">Cut, removed and disposed of affected plaster</label>
-            <input type="checkbox" class="actions" value="Cut, removed and disposed of affected plaster">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Removed and disposed of smooth edge">
+                <label for="Removed and disposed of smooth edge">Removed and disposed of smooth edge</label>
+            </div>
 
-            <label for="Drilled holes in kickers">Drilled holes in kickers</label>
-            <input type="checkbox" class="actions" value="Drilled holes in kickers">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Cut, removed and disposed of affected plaster">
+                <label for="Cut, removed and disposed of affected plaster">Cut, removed and disposed of affected plaster</label>
+            </div>
 
-            <label for="Removed and disposed of non-salvageable skirting boards">Removed and disposed of non-salvageable skirting boards</label>
-            <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable skirting boards">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Drilled holes in kickers">
+                <label for="Drilled holes in kickers">Drilled holes in kickers</label>
+            </div>
 
-            <label for="Cleaned sewage affected areas and treated with anti-microbial">Cleaned sewage affected areas and treated with anti-microbial</label>
-            <input type="checkbox" class="actions" value="Cleaned sewage affected areas and treated with anti-microbial">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Removed and disposed of non-salvageable skirting boards">
+                <label for="Removed and disposed of non-salvageable skirting boards">Removed and disposed of non-salvageable skirting boards</label>
+            </div>
 
-            <label for="Set up containment(s)">Set up containment(s)</label>
-            <input type="checkbox" class="actions" value="Set up containment(s)">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Cleaned sewage affected areas and treated with anti-microbial">
+                <label for="Cleaned sewage affected areas and treated with anti-microbial">Cleaned sewage affected areas and treated with anti-microbial</label>
+            </div>
 
-            <label for="Contained visible mould">Contained visible mould</label>
-            <input type="checkbox" class="actions" value="Contained visible mould">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Set up containment(s)">
+                <label for="Set up containment(s)">Set up containment(s)</label>
+            </div>
 
-            <label for="PRV clean completed">PRV clean completed</label>
-            <input type="checkbox" class="actions" value="PRV clean completed">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Contained visible mould">
+                <label for="Contained visible mould">Contained visible mould</label>
+            </div>
 
-            <label for="Conducted Inventory">Conducted Inventory</label>
-            <input type="checkbox" class="actions" value="Conducted Inventory">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="PRV clean completed">
+                <label for="PRV clean completed">PRV clean completed</label>
+            </div>
 
-            <label for="Disposed of non-salvageable contents">Disposed of non-salvageable contents</label>
-            <input type="checkbox" class="actions" value="Disposed of non-salvageable contents">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Conducted Inventory">
+                <label for="Conducted Inventory">Conducted Inventory</label>
+            </div>
 
-            <label for="Prepared Scope of Works">Prepared Scope of Works</label>
-            <input type="checkbox" class="actions" value="Prepared Scope of Works">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Disposed of non-salvageable contents">
+                <label for="Disposed of non-salvageable contents">Disposed of non-salvageable contents</label>
+            </div>
 
-            <label for="Prepared variation of Scope of Works">Prepared variation of Scope of Works</label>
-            <input type="checkbox" class="actions" value="Prepared variation of Scope of Works">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Prepared Scope of Works">
+                <label for="Prepared Scope of Works">Prepared Scope of Works</label>
+            </div>
 
-            <label for="No further work required">No further work required</label>
-            <input type="checkbox" class="actions" value="No further work required">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="Prepared variation of Scope of Works">
+                <label for="Prepared variation of Scope of Works">Prepared variation of Scope of Works</label>
+            </div>
+
+            <div class="checkbox-pair">
+                <input type="checkbox" class="actions" value="No further work required">
+                <label for="No further work required">No further work required</label>
+            </div>
         </div>
     </div>
     
@@ -528,36 +604,47 @@ function generateRoom(){
         <button class="dropdown-button" onclick=triggerDropdown(this)>Show</button>
         <br>
         <div class="collapsable-content">
-            <label for="AFD's">AFD's</label>
-            <input type="checkbox" class="equipment" value="AFD's" onchange="toggleInput(this)">
-            <div class="AFD's-input" style="display: none;">
-                <label for="AFD's-quantity">Quantity:</label>
-                <input type="number" class="AFD's-quantity" min="1">
-            </div>
 
-            <label for="Dehumidifiers">Dehumidifiers</label>
-            <input type="checkbox" class="equipment" value="Dehumidifiers" onchange="toggleInput(this)">
-            <div class="Dehumidifiers-input" style="display: none;">
-                <label for="Dehumidifiers-quantity">Quantity:</label>
-                <input type="number" class="Dehumidifiers-quantity" min="1">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="equipment" value="Air Mover" onchange="toggleInput(this)">
+                <label for="Air Mover">Air Mover</label>
             </div>
-
-            <label for="Air Mover">Air Mover</label>
-            <input type="checkbox" class="equipment" value="Air Mover" onchange="toggleInput(this)">
             <div class="Air Mover-input" style="display: none;">
                 <label for="Air Mover-quantity">Quantity:</label>
                 <input type="number" class="Air Mover-quantity" min="1">
             </div>
 
-            <label for="Axial Drier">Axial Drier</label>
-            <input type="checkbox" class="equipment" value="Axial Drier" onchange="toggleInput(this)">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="equipment" value="Dehumidifiers" onchange="toggleInput(this)">
+                <label for="Dehumidifiers">Dehumidifiers</label>
+            </div>
+            <div class="Dehumidifiers-input" style="display: none;">
+                <label for="Dehumidifiers-quantity">Quantity:</label>
+                <input type="number" class="Dehumidifiers-quantity" min="1">
+            </div>
+
+            <div class="checkbox-pair">
+                <input type="checkbox" class="equipment" value="AFD's" onchange="toggleInput(this)">
+                <label for="AFD's">AFD's</label>
+            </div>
+            <div class="AFD's-input" style="display: none;">
+                <label for="AFD's-quantity">Quantity:</label>
+                <input type="number" class="AFD's-quantity" min="1">
+            </div>
+
+            <div class="checkbox-pair">
+                <input type="checkbox" class="equipment" value="Axial Drier" onchange="toggleInput(this)">
+                <label for="Axial Drier">Axial Drier</label>
+            </div>
             <div class="Axial Drier-input" style="display: none;">
                 <label for="Axial Drier-quantity">Quantity:</label>
                 <input type="number" class="Axial Drier-quantity" min="1">
             </div>
 
-            <label for="Drying Matt">Drying Matt</label>
-            <input type="checkbox" class="equipment" value="Drying Matt" onchange="toggleInput(this)">
+            <div class="checkbox-pair">
+                <input type="checkbox" class="equipment" value="Drying Matt" onchange="toggleInput(this)">
+                <label for="Drying Matt">Drying Matt</label>
+            </div>
             <div class="Drying Matt-input" style="display: none;">
                 <label for="Drying Matt-quantity">Quantity:</label>
                 <input type="number" class="Drying Matt-quantity" min="1">
@@ -758,6 +845,7 @@ Outdoor Dew Point: ${data.outdoor_dew_point}<br>
 Outdoor GPK: ${data.outdoor_gpk}<br>
 -----------------------------------------------------------------------------------------<br>
 ${generateRoomText(data.rooms)}
+Other equipment left on site: ${data.other_equipment}<br>
 Next Steps: ${data.next_steps}<br>
 Next Steps Comments: ${data.next_steps_typing}<br>
 Other Trades: ${data.other_trades}<br>
@@ -978,7 +1066,9 @@ function showOptions(input) {
 function toggleInput(checkbox) {
 
     // Get the specific input associated with the checkbox
-    const parentDiv = checkbox.parentNode
+    const checkBoxPair = checkbox.parentNode
+
+    const parentDiv = checkBoxPair.parentNode
 
     const inputField = parentDiv.getElementsByClassName(`${checkbox.value}-input`)[0];
 

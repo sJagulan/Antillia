@@ -20,7 +20,7 @@
         </div>
 
         <div class="photocollection-form">
-            <label for="outside">Outside</label>
+            <label for="outside">Front Elevation Image</label>
             <input type="file" accept="image/jpg, image/jpeg" class="photos">
             <div class="selectedPhotos"></div>
         </div>
@@ -107,22 +107,22 @@
         </div>
 
         <div>
-            <label for="outdoor_temperature">Outdoor Temperature</label>
+            <label for="outdoor_temperature">Outdoor Temperature (°C)</label>
             <input type="number" id="outdoor_temperature" min="1">
         </div>
 
         <div>
-            <label for="outdoor_relative_humidity">Outdoor Relative Humidity</label>
+            <label for="outdoor_relative_humidity">Outdoor Relative Humidity (%)</label>
             <input type="number" id="outdoor_relative_humidity" min="1">
         </div>
 
         <div>
-            <label for="outdoor_dew_point">Outdoor Dew Point</label>
+            <label for="outdoor_dew_point">Outdoor Dew Point (°C)</label>
             <input type="number" id="outdoor_dew_point" min="1">
         </div>
 
         <div>
-            <label for="outdoor_gpk">Outdoor GPK</label>
+            <label for="outdoor_gpk">Outdoor GPK (g/kg)</label>
             <input type="number" id="outdoor_gpk" min="1">
         </div>
 
@@ -132,8 +132,18 @@
         <br>
         <br>
         <div>
-            <label for="next_steps">Next Steps (Y/N)</label>
-            <input type="text" id="next_steps">
+            <label for="other_equipment">Other equipment left on site</label>
+            <textarea type="text" id="other_equipment"></textarea>
+        </div>
+
+        <div>
+            <label for="next_steps">Next Steps</label>
+            <select id="next_steps">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="Unsure">Unsure</option>
+            </select>
         </div>
 
         <div>
@@ -142,12 +152,17 @@
         </div>
 
         <div>
-            <label for="other_trades">Other Trades (Y/N)</label>
-            <input type="text" id="other_trades">
+            <label for="other_trades">Other Trades</label>
+            <select id="other_trades">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+                <option value="Not Applicable">Not Applicable</option>
+                <option value="Unsure">Unsure</option>
+            </select>
         </div>
 
         <div>
-            <label for="other_trades_typing">Comments</label>
+            <label for="other_trades_typing">Comments (What work is required from other trades?)</label>
             <textarea type="text" id="other_trades_typing"></textarea>
         </div>
 

@@ -100,3 +100,7 @@ button:hover {
     z-index: 999;
     padding: 5px;
 }
+
+.checkbox-pair {
+    display: flex;
+}
