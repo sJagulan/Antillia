@@ -209,10 +209,10 @@ Time Stamp: ${data.time_stamp}<br>
 
 function handleFileSelect(event, newWidth = 800, newHeight = 640) {
     const fileInput = event.target;
-    const roomDiv = fileInput.closest('.photoroom');
-    const photoContainer = roomDiv.querySelector('.selectedPhotos');
+    const itemDiv = fileInput.closest('.photoroom');
+    const photoContainer = itemDiv.querySelector('.selectedPhotos');
 
-    // Display selected photos for the specific room
+    // Display selected photos for the specific item
     for (const file of fileInput.files) {
         const photoElement = document.createElement('div');
 
@@ -229,20 +229,22 @@ function handleFileSelect(event, newWidth = 800, newHeight = 640) {
             img.onload = function () {
                 // Calculate the aspect ratio to maintain proportions
                 const aspectRatio = img.width / img.height;
+                let imgHeight = newHeight;
+                let imgWidth = newWidth;
 
                 // Calculate the new dimensions while preserving aspect ratio
                 if (aspectRatio > 1) {
-                    newHeight = newWidth / aspectRatio;
+                    imgHeight = newWidth / aspectRatio;
                 } else {
-                    newWidth = newHeight * aspectRatio;
+                    imgWidth = newHeight * aspectRatio;
                 }
 
                 // Set imgElement dimensions
-                imgElement.width = newWidth;
-                imgElement.height = newHeight;
+                imgElement.width = imgWidth;
+                imgElement.height = imgHeight;
 
                 // Display the processed image
-                imgElement.src = resizeImage(img, newWidth, newHeight);
+                imgElement.src = resizeImage(img, imgWidth, imgHeight);
             };
 
             img.src = e.target.result;
