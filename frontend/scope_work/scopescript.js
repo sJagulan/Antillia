@@ -511,8 +511,9 @@ function processEmail() {
         // Send the email with SMTP.js
         Email.send({
         SecureToken: "6bf2cac1-8cf6-4800-ba16-7ab9fece4418",
-        To: 'admin@antilliaemergencynetwork.com.au',
+        //To: 'admin@antilliaemergencynetwork.com.au',
         //To: 'therealadazartar@gmail.com',
+        To: 'adamautomated39@gmail.com',
         From: "adamautomated39@gmail.com",
         Subject: `${data.job_address}`,
         Body: `
